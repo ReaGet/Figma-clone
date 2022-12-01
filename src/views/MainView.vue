@@ -11,7 +11,7 @@ import CanvasEl from "@/components/app/CanvasEl";
 export default {
   components: { SidebarEl, CanvasEl },
   data: () => ({
-    isOpen: false,
+    isOpen: true,
   }),
   methods: {
     toggleSidebar() {
