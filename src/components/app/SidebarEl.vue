@@ -1,24 +1,12 @@
 <template>
   <div ref="sidebar" class="sidebar" :class="{ open: isOpen }">
-    <div class="sidebar__top filter">
-      <div class="filter__wrapper">
-        <div class="filter__input-wrapper">
-          <input type="text" class="filter__input" />
-        </div>
-        <div class="filter__btn">
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            xmlns:xlink="http://www.w3.org/1999/xlink"
-            x="0px"
-            y="0px"
-            viewBox="0 0 472.615 472.615"
-            style="enable-background: new 0 0 472.615 472.615"
-            xml:space="preserve"
-          >
-              <polygon points="472.615,12.908 0,12.908 180.081,202.629 180.066,459.708 292.55,401.525 292.534,202.629"/> <!-- eslint-disable-line -->
-          </svg>
-        </div>
-      </div>
+    <FilterComponent />
+    <div class="markers__wrapper">
+      <SidebarMarkerComponent
+        v-for="marker in markers"
+        :key="marker.date"
+        :data="marker"
+      />
     </div>
   </div>
 </template>
@@ -28,7 +16,7 @@
   max-width: 300px;
   width: 100%;
   height: 100vh;
-  background-color: red;
+  background-color: #f0f0f0;
   position: fixed;
   right: -100%;
   top: 0;
@@ -39,14 +27,53 @@
     right: 0;
   }
 }
+.markers__wrapper {
+  padding: 10px 0;
+}
 </style>
 
 <script>
+import FilterComponent from "@/components/FilterComponent";
+import SidebarMarkerComponent from "@/components/SidebarMarkerComponent";
 export default {
+  data: () => ({
+    markers: [
+      {
+        user: {
+          name: "Rishat",
+          isItMe: true,
+        },
+        date: "02.12.2022",
+        title: "#Этаж 1, прихожая",
+        comments: [
+          {
+            date: "02.12.2022",
+            text: "Test text",
+          },
+        ],
+      },
+      {
+        user: {
+          name: "Rifat",
+        },
+        date: "01.12.2022",
+        title: "#Этаж 2, ванная",
+        comments: [
+          {
+            date: "02.12.2022",
+            text: "Lorem ipsum dolor sit amet, consectetur adipisicing elit.",
+          },
+          {
+            date: "02.12.2022",
+            text: "Seconds comment.",
+          },
+        ],
+      },
+    ],
+  }),
+  components: { SidebarMarkerComponent, FilterComponent },
   props: ["isOpen"],
-  mounted() {
-    console.log(this.isOpen);
-  },
+  mounted() {},
   methods: {
     open() {
       this.$refs.sidebar.classList.add("open");
