@@ -1,6 +1,7 @@
 import { createStore } from "vuex";
 import markers from "./markers";
 import users from "./users";
+import comments from "./comments";
 
 export default createStore({
   state: {
@@ -9,5 +10,5 @@ export default createStore({
   getters: {},
   mutations: {},
   actions: {},
-  modules: { markers, users },
+  modules: { markers, users, comments },
 });
