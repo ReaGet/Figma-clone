@@ -4,8 +4,8 @@
     <div class="markers__wrapper">
       <SidebarMarkerComponent
         v-for="marker in markers"
-        :key="marker.date"
-        :data="marker"
+        :key="marker.id"
+        :marker="marker"
       />
     </div>
   </div>
@@ -18,9 +18,10 @@
   height: 100vh;
   background-color: #f0f0f0;
   position: fixed;
+  z-index: 20;
   right: -100%;
   top: 0;
-  padding: 10px;
+  padding: 10px 10px 60px 10px;
   transition: right 0.2s ease-in-out;
 
   &.open {
@@ -28,7 +29,19 @@
   }
 }
 .markers__wrapper {
-  padding: 10px 0;
+  margin-top: 10px;
+  padding-right: 10px;
+  overflow-y: scroll;
+  height: 100%;
+  &::-webkit-scrollbar {
+    width: 5px;
+  }
+  &::-webkit-scrollbar-track {
+    background-color: #e0e0e0;
+  }
+  &::-webkit-scrollbar-thumb {
+    background-color: #a0a0a0;
+  }
 }
 </style>
 
@@ -36,53 +49,12 @@
 import FilterComponent from "@/components/FilterComponent";
 import SidebarMarkerComponent from "@/components/SidebarMarkerComponent";
 export default {
-  data: () => ({
-    markers: [
-      {
-        user: {
-          name: "Rishat",
-          isItMe: true,
-        },
-        date: "02.12.2022",
-        title: "#Этаж 1, прихожая",
-        comments: [
-          {
-            date: "02.12.2022",
-            text: "Test text",
-          },
-        ],
-      },
-      {
-        user: {
-          name: "Rifat",
-        },
-        date: "01.12.2022",
-        title: "#Этаж 2, ванная",
-        comments: [
-          {
-            date: "02.12.2022",
-            text: "Lorem ipsum dolor sit amet, consectetur adipisicing elit.",
-          },
-          {
-            date: "02.12.2022",
-            text: "Seconds comment.",
-          },
-        ],
-      },
-    ],
-  }),
   components: { SidebarMarkerComponent, FilterComponent },
   props: ["isOpen"],
   mounted() {},
-  methods: {
-    open() {
-      this.$refs.sidebar.classList.add("open");
-    },
-    close() {
-      this.$refs.sidebar.classList.remove("open");
-    },
-    toggle() {
-      this.$refs.sidebar.classList.toggle("open");
+  computed: {
+    markers() {
+      return this.$store.getters.markers;
     },
   },
 };
