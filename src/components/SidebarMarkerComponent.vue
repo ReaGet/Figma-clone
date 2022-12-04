@@ -1,6 +1,6 @@
 <template>
   <div class="sidebar-marker">
-    <UserInfo :userId="authorId" :currentId="currentId" />
+    <UserInfo :user="author" />
     <div class="sidebar-marker__info">
       <div class="sidebar-marker__title">{{ title }}</div>
       <div class="sidebar-marker__date">{{ date }}</div>
@@ -128,16 +128,15 @@ export default {
     title() {
       return this.marker.title;
     },
-    authorId() {
-      return this.marker.authorId;
+    author() {
+      return this.$store.getters.users.find(
+        (user) => user.id === this.marker.authorId
+      );
     },
     users() {
       return this.$store.getters.users.filter((user) =>
         this.marker.users.includes(user.id)
       );
-    },
-    currentId() {
-      return this.$store.getters.currentId;
     },
   },
 };

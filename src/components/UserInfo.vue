@@ -3,7 +3,7 @@
     <UserLogo :user="user" />
     <div class="user__title">
       <div class="user__name">{{ user.name }}</div>
-      <div class="user__who" v-if="userId === currentId">(Вы)</div>
+      <div class="user__who" v-if="user.id === currentId">(Вы)</div>
     </div>
   </div>
 </template>
@@ -28,15 +28,15 @@
 import UserLogo from "@/components/UserLogo";
 export default {
   components: { UserLogo },
-  props: ["userId", "currentId"],
+  props: ["user"],
   async mounted() {
     // console.log(this.$store.getters.users);
     // console.log(await this.$store.dispatch("getUserById", 1));
     console.log();
   },
   computed: {
-    user() {
-      return this.$store.getters.users.find((user) => user.id === this.userId);
+    currentId() {
+      return this.$store.getters.currentId;
     },
   },
 };

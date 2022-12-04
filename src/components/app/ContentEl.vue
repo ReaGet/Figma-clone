@@ -46,19 +46,24 @@ export default {
       this.isCreating = !this.isCreating;
       this.position = this.getPosition(event);
     },
-    submitMarker() {
+    submitMarker(data) {
       this.isCreating = false;
-      const marker = this.createMarker();
+      const marker = this.createMarker(data);
       this.$store.commit("addMarker", marker);
     },
-    createMarker() {
+    createMarker(data) {
       const currentId = this.$store.getters.currentId;
+      const users = [];
+      users.push(currentId);
+      if (data.sendTo) {
+        users.push(data.sendTo.id);
+      }
       return {
         id: ~~(Math.random() * 100),
         title: "#Этаж 1, прихожая",
         date: "02.12.2022",
         authorId: currentId,
-        users: [currentId],
+        users: users,
         state: "creating",
         position: this.position,
       };

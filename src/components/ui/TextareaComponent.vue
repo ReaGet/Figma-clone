@@ -4,7 +4,7 @@
     rows="1"
     @input="handleInput"
     ref="textarea"
-    v-model="comment"
+    v-model.trim="comment"
     class="textarea"
     @keydown.enter="handleEnter"
   ></textarea>
@@ -37,6 +37,7 @@ export default {
   methods: {
     handleInput() {
       this.handleTextAreaSize();
+      this.$emit("textareaInput", this.comment);
     },
     handleTextAreaSize() {
       this.$refs.textarea.style.height = "auto";
@@ -46,7 +47,7 @@ export default {
     handleEnter(event) {
       if (!event.ctrlKey && !event.shiftKey) {
         event.preventDefault();
-        this.$emit("handleSubmit", this.comment);
+        this.$emit("handleSubmit");
         return;
       }
       if (event.ctrlKey) {
