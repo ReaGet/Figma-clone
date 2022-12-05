@@ -1,9 +1,20 @@
 <template>
-  <div class="marker" :style="position" @click.stop="handleClick">
+  <div
+    class="marker"
+    :class="{ creating: isCreating }"
+    :style="position"
+    @click.stop="handleClick"
+  >
     <div class="marker__inner">
       <UserLogo :user="user" v-if="!isCreating" />
-      <div class="marker__content">
-        Lorem ipsum dolor sit amet, consectetur adipisicing elit.
+      <div class="marker__content" v-if="!isCreating">
+        <div class="marker__info">
+          <div class="marker__author">{{ userName }}</div>
+          <div class="marker__date">{{ marker.date }}</div>
+        </div>
+        <div class="marker__comment">
+          Lorem ipsum dolor sit amet, consectetur adipisicing elit.
+        </div>
       </div>
       <form
         @submit.prevent="submitMarker"
@@ -54,21 +65,10 @@
 <style lang="scss">
 .marker {
   position: absolute;
-  //border: 4px solid #fff;
-  ////border-radius: 50%;
-  //cursor: pointer;
-  //border-radius: 16px 16px 16px 0px;
-  //min-width: 32px;
-  //min-height: 32px;
-  //background-color: #fff;
-  //box-shadow: 0 0 10px rgb(0 0 0 / 10%);
   &__inner {
     position: absolute;
     bottom: 0;
-    min-width: inherit;
-    min-height: inherit;
     border: 4px solid #fff;
-    //border-radius: 50%;
     cursor: pointer;
     border-radius: 16px 16px 16px 0px;
     min-width: 32px;
@@ -76,17 +76,48 @@
     background-color: #fff;
     box-shadow: 0 0 10px rgb(0 0 0 / 10%);
     display: flex;
-    transition: min-width 0.2s ease-in-out;
-    &:hover {
-      min-width: 240px;
-      padding: 10px;
-      .marker__content {
-        visibility: visible;
-      }
-    }
+    transition: min-width 0.2s ease-in-out, padding 0.2s ease-in-out;
   }
   &__content {
     visibility: hidden;
+    overflow: hidden;
+    max-width: 0;
+    font-size: 11px;
+    transition: max-width 0.2s ease-in-out, max-height 0.2s ease-in-out,
+      margin-left 0.2s ease-in-out;
+  }
+  &:not(.creating):hover {
+    .marker__inner {
+      min-width: 240px;
+      padding: 5px;
+      .marker__content {
+        margin-left: 10px;
+        visibility: visible;
+        max-width: 240px;
+      }
+      .marker__comment {
+        max-height: 150px;
+      }
+    }
+  }
+  &__info {
+    display: flex;
+  }
+  &__author {
+    font-weight: 600;
+    margin-right: 10px;
+    color: #555;
+  }
+  &__date {
+    color: #aaa;
+  }
+  &__comment {
+    text-align: left;
+    margin-top: 5px;
+    max-height: 0px;
+    min-width: 180px;
+    overflow: hidden;
+    transition: max-height 0.2s ease-in-out;
   }
   &__form {
     z-index: 20;
@@ -161,6 +192,9 @@ export default {
       return this.$store.getters.users.find(
         (user) => this.marker.authorId === user.id
       );
+    },
+    userName() {
+      return this.user?.name || "";
     },
     users() {
       const $users = [{ id: -1, name: "Выберите значение" }];
