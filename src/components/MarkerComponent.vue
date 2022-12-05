@@ -16,7 +16,8 @@
             <SelectComponent
               :label="'Кому'"
               :options="users"
-              @changeSelect="changeSelect"
+              :default="0"
+              @input="changeSelect"
             />
           </div>
           <button class="marker__form-button">
@@ -139,7 +140,22 @@ export default {
       );
     },
     users() {
-      return this.$store.getters.users;
+      const $users = this.$store.getters.users.reduce(
+        (object, user) => {
+          object.push({
+            id: user.id,
+            value: user.name,
+          });
+          return object;
+        },
+        [
+          {
+            id: -1,
+            value: "Выберите значение",
+          },
+        ]
+      );
+      return $users;
     },
     position() {
       const { x, y } = this.marker.position;

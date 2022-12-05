@@ -1,25 +1,22 @@
 <template>
-  <label class="select">
+  <label class="select" @blur="active = false" :tabindex="tabindex">
     <span class="select__label" v-if="label">{{ label }}</span>
-    <select class="select__tag" ref="select" hidden>
-      <option v-for="user in users" :key="user.id" :value="user.id">
-        {{ user.name }}
-      </option>
-    </select>
-    <div class="select__wrapper" ref="selectWrapper" @click="openSelect">
-      <div class="select__current">
-        <UserInfo :user="currentUser" v-if="currentUser" />
-        <span v-else>Выберите пользователя</span>
+    <div class="select__wrapper" :class="{ active: active }">
+      <div class="select__current" @click="active = true">
+        {{ getSelected }}
       </div>
       <ul class="select__list">
         <li
-          v-for="(user, index) in users"
-          :key="user.id"
-          value="{ user.id }"
+          v-for="option in options"
+          :key="option.id"
           class="select__item"
-          @click.stop="selectItem(index)"
+          @click.stop="
+            selected = option;
+            active = false;
+            $emit('input', option);
+          "
         >
-          <UserInfo :user="user" />
+          {{ option.value }}
         </li>
       </ul>
     </div>
@@ -66,6 +63,8 @@
   }
   &__item {
     padding: 5px;
+    display: flex;
+    justify-content: flex-start;
     &:hover {
       background-color: #efefef;
       cursor: pointer;
@@ -81,37 +80,43 @@
 </style>
 
 <script>
-import UserInfo from "@/components/UserInfo.vue";
-
 export default {
-  components: { UserInfo },
-  props: ["label", "options"],
-  data: () => ({
-    curentIndex: Infinity,
-  }),
-  methods: {
-    openSelect() {
-      this.$refs.selectWrapper.classList.add("active");
+  props: {
+    options: {
+      type: Array,
+      required: true,
     },
-    closeSelect() {
-      this.$refs.selectWrapper.classList.remove("active");
+    default: {
+      type: Number,
+      required: false,
+      default: null,
     },
-    selectItem(index) {
-      this.curentIndex = index;
-      this.$refs.select.value = this.currentUser.id;
-      this.closeSelect();
-      this.$emit("changeSelect", this.currentUser);
+    tabindex: {
+      type: Number,
+      required: false,
+      default: 0,
+    },
+    label: {
+      type: String,
+      required: false,
+      default: "",
     },
   },
+  data: () => ({
+    active: false,
+    selected: null,
+  }),
   computed: {
-    currentUser() {
-      return this.users?.at(this.curentIndex);
+    getSelected() {
+      return this.selected
+        ? this.selected.value
+        : this.options[this.default]
+        ? this.options[this.default].value
+        : this.options[0].value;
     },
-    users() {
-      return this.options.filter(
-        (user) => user.id !== this.$store.getters.currentId
-      );
-    },
+  },
+  mounted() {
+    this.$emit("input", this.selected);
   },
 };
 </script>
