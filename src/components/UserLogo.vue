@@ -7,8 +7,6 @@
 
 <style lang="scss">
 .user {
-  display: flex;
-  align-items: center;
   &__logo {
     flex-shrink: 0;
     border-radius: 50%;

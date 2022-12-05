@@ -54,7 +54,7 @@ export default {
     createMarker(data) {
       const currentId = this.$store.getters.currentId;
       const users = [currentId];
-      if (data.sendTo && data.sendTo.id > -1) {
+      if (data.sendTo && data.sendTo.id > -1 && !users.includes(data.sendTo)) {
         users.push(data.sendTo.id);
       }
       return {

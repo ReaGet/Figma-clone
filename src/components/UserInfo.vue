@@ -12,10 +12,18 @@
 .user {
   display: flex;
   align-items: center;
+  width: 100%;
   &__title {
     display: flex;
     flex-wrap: nowrap;
     padding: 0 5px;
+    overflow: hidden;
+  }
+  &__name {
+    width: 100%;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
   }
   &__who {
     margin-left: 10px;

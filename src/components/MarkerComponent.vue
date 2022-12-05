@@ -13,7 +13,7 @@
         />
         <div class="marker__form-bottom">
           <div class="marker__form-users">
-            <SelectComponent
+            <UserSelectComponent
               :label="'Кому'"
               :options="users"
               :default="0"
@@ -124,10 +124,14 @@
 <script>
 import UserLogo from "@/components/UserLogo.vue";
 import TextareaComponent from "@/components/ui/TextareaComponent.vue";
-import SelectComponent from "@/components/ui/SelectComponent.vue";
+import UserSelectComponent from "@/components/ui/UserSelectComponent";
 
 export default {
-  components: { UserLogo, TextareaComponent, SelectComponent },
+  components: {
+    UserSelectComponent,
+    UserLogo,
+    TextareaComponent,
+  },
   data: () => ({
     comment: "",
     sendTo: null,
@@ -140,21 +144,10 @@ export default {
       );
     },
     users() {
-      const $users = this.$store.getters.users.reduce(
-        (object, user) => {
-          object.push({
-            id: user.id,
-            value: user.name,
-          });
-          return object;
-        },
-        [
-          {
-            id: -1,
-            value: "Выберите значение",
-          },
-        ]
-      );
+      const $users = [{ id: -1, name: "Выберите значение" }];
+      this.$store.getters.users.forEach((user) => {
+        $users.push(user);
+      });
       return $users;
     },
     position() {

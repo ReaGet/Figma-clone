@@ -3,7 +3,7 @@
     <span class="select__label" v-if="label">{{ label }}</span>
     <div class="select__wrapper" :class="{ active: active }">
       <div class="select__current" @click="active = true">
-        {{ getSelected }}
+        <UserInfo :user="getSelected" />
       </div>
       <ul class="select__list">
         <li
@@ -16,7 +16,7 @@
             $emit('input', option);
           "
         >
-          {{ option.name }}
+          <UserInfo :user="option" />
         </li>
       </ul>
     </div>
@@ -82,7 +82,9 @@
 </style>
 
 <script>
+import UserInfo from "@/components/UserInfo";
 export default {
+  components: { UserInfo },
   props: {
     options: {
       type: Array,
@@ -111,10 +113,10 @@ export default {
   computed: {
     getSelected() {
       return this.selected
-        ? this.selected.name
+        ? this.selected
         : this.options[this.default]
-        ? this.options[this.default].name
-        : this.options[0].name;
+        ? this.options[this.default]
+        : this.options[0];
     },
   },
   mounted() {
