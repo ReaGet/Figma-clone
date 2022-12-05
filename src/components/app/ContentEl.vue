@@ -7,12 +7,14 @@
       @submitMarker="submitMarker"
       @cancelMarker="cancelMarker"
     />
-    <MarkerComponent
-      v-for="marker in markers"
-      :key="marker.id"
-      :marker="marker"
-      @markerClick="handleMarkerClick"
-    />
+    <div class="markers">
+      <MarkerComponent
+        v-for="marker in markers"
+        :key="marker.id"
+        :marker="marker"
+        @markerClick="handleMarkerClick"
+      />
+    </div>
   </div>
 </template>
 
@@ -22,13 +24,18 @@
   background-color: #aaa;
   height: 100vh;
 }
+.markers {
+  position: absolute;
+}
 </style>
 
 <script>
 import MarkerComponent from "@/components/MarkerComponent.vue";
+import dateFilter from "@/mixins/dateMixin";
 
 export default {
   components: { MarkerComponent },
+  mixins: [dateFilter],
   data: () => ({
     isCreating: false,
     position: {},
@@ -60,7 +67,7 @@ export default {
       return {
         id: ~~(Math.random() * 100),
         title: "#Этаж 1, прихожая",
-        date: "02.12.2022",
+        date: this.dateFilter(new Date()),
         authorId: currentId,
         users: users,
         state: "creating",

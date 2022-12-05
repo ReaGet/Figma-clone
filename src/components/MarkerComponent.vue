@@ -13,7 +13,9 @@
           <div class="marker__date">{{ marker.date }}</div>
         </div>
         <div class="marker__comment">
-          Lorem ipsum dolor sit amet, consectetur adipisicing elit.
+          Lorem ipsum dolor sit amet, consectetur adipisicing elit. Lorem ipsum
+          dolor sit amet, consectetur adipisicing elit. Lorem ipsum dolor sit
+          amet, consectetur adipisicing elit.
         </div>
       </div>
       <form
@@ -199,7 +201,9 @@ export default {
     users() {
       const $users = [{ id: -1, name: "Выберите значение" }];
       this.$store.getters.users.forEach((user) => {
-        $users.push(user);
+        if (user.id !== this.$store.getters.currentId) {
+          $users.push(user);
+        }
       });
       return $users;
     },

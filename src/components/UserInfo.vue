@@ -27,7 +27,7 @@
   }
   &__who {
     margin-left: 10px;
-    color: #d0d0d0;
+    color: #919191;
   }
 }
 </style>

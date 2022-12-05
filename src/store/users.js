@@ -9,7 +9,7 @@ export default {
       },
       {
         id: 4,
-        name: "Настюша",
+        name: "Настя",
         image: null,
       },
       {
