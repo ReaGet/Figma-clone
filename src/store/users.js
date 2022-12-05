@@ -1,9 +1,15 @@
 export default {
   state: {
+    currentId: 1,
     users: [
       {
         id: 1,
-        name: "Rifat",
+        name: "Рифат",
+        image: null,
+      },
+      {
+        id: 4,
+        name: "Настюша",
         image: null,
       },
       {
@@ -25,5 +31,6 @@ export default {
   },
   getters: {
     users: (state) => state.users,
+    currentId: (state) => state.currentId,
   },
 };

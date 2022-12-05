@@ -2,8 +2,8 @@
   <div class="user">
     <UserLogo :user="user" />
     <div class="user__title">
-      <div class="user__name">{{ name }}</div>
-      <div v-if="isItMe" class="user__who">(Вы)</div>
+      <div class="user__name">{{ user.name }}</div>
+      <div class="user__who" v-if="user.id === currentId">(Вы)</div>
     </div>
   </div>
 </template>
@@ -29,19 +29,14 @@ import UserLogo from "@/components/UserLogo";
 export default {
   components: { UserLogo },
   props: ["user"],
-  data: () => ({
-    logoColor: "#333",
-  }),
-  mounted() {},
+  async mounted() {
+    // console.log(this.$store.getters.users);
+    // console.log(await this.$store.dispatch("getUserById", 1));
+    console.log();
+  },
   computed: {
-    name() {
-      return this.user.name;
-    },
-    isItMe() {
-      return this.user.isItMe;
-    },
-    image() {
-      return this.user.image;
+    currentId() {
+      return this.$store.getters.currentId;
     },
   },
 };

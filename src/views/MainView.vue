@@ -1,15 +1,17 @@
 <template>
-  <button @click="toggleSidebar">Click</button>
-  <CanvasEl />
+  <button @click="toggleSidebar" style="position: absolute; z-index: 10">
+    Click
+  </button>
+  <ContentEl />
   <SidebarEl :isOpen="isOpen" />
 </template>
 
 <script>
 import SidebarEl from "@/components/app/SidebarEl";
-import CanvasEl from "@/components/app/CanvasEl";
+import ContentEl from "@/components/app/ContentEl.vue";
 
 export default {
-  components: { SidebarEl, CanvasEl },
+  components: { SidebarEl, ContentEl },
   data: () => ({
     isOpen: true,
     comments: null,

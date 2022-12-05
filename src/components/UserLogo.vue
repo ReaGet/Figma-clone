@@ -31,23 +31,29 @@
 export default {
   props: ["user"],
   data: () => ({
-    logoColor: "#333",
+    logoColor: "#fff",
   }),
   mounted() {},
   computed: {
     computeLogoColor() {
+      if (!this.user) {
+        return this.logoColor;
+      }
       const hue =
-        this.user.name.split("").reduce((sum, l) => {
+        this.name.split("").reduce((sum, l) => {
           return sum + l.charCodeAt(0);
         }, 0) % 360;
       const hsl = `hsl(${hue}, 65%, 66%)`;
       return hsl;
     },
     letter() {
-      return this.user.name.charAt(0).toUpperCase();
+      return this.name.charAt(0).toUpperCase();
     },
     image() {
-      return this.user.image;
+      return this.user?.image;
+    },
+    name() {
+      return this.user?.name || "";
     },
   },
 };

@@ -1,17 +1,17 @@
 <template>
-  <div class="marker">
+  <div class="sidebar-marker">
     <UserInfo :user="author" />
-    <div class="marker__info">
-      <div class="marker__title">{{ title }}</div>
-      <div class="marker__date">{{ date }}</div>
+    <div class="sidebar-marker__info">
+      <div class="sidebar-marker__title">{{ title }}</div>
+      <div class="sidebar-marker__date">{{ date }}</div>
     </div>
-    <div class="marker__content"></div>
-    <div class="marker__footer" v-if="subscribers.length > 1">
-      <div class="marker__footer-users">
-        <UserLogo v-for="sub in subscribers" :key="sub.id" :user="sub" />
+    <div class="sidebar-marker__content"></div>
+    <div class="sidebar-marker__footer" v-if="users.length > 1">
+      <div class="sidebar-marker__footer-users">
+        <UserLogo v-for="user in users" :key="user.id" :user="user" />
       </div>
-      <div class="marker__footer-comments">{{ commentsCount }}</div>
-      <i class="marker__footer-icon">
+      <div class="sidebar-marker__footer-comments"></div>
+      <i class="sidebar-marker__footer-icon">
         <svg
           width="24px"
           height="24px"
@@ -33,7 +33,7 @@
 
 <style lang="scss">
 $border-radius: 6px;
-.marker {
+.sidebar-marker {
   background-color: #fff;
   padding: 10px 15px;
   border-radius: $border-radius;
@@ -104,7 +104,7 @@ $border-radius: 6px;
 
 <script>
 import UserInfo from "@/components/UserInfo";
-import UserLogo from "@/components/UserLogo";
+import UserLogo from "@/components/UserLogo.vue";
 export default {
   components: { UserInfo, UserLogo },
   props: ["marker"],
@@ -112,6 +112,12 @@ export default {
   computed: {
     date() {
       return this.marker.date || "dd-mm-yyyy";
+    },
+    text() {
+      return (
+        this.marker.text ||
+        "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Assumenda beatae, doloremque fuga minima repellat tenetur. Doloremque eius et eum fugit itaque iure magnam placeat quos recusandae, velit! Hic, labore suscipit?"
+      );
     },
     comments() {
       return [];
@@ -124,12 +130,13 @@ export default {
     },
     author() {
       return this.$store.getters.users.find(
-        (user) => user.id === this.marker.createdBy
+        (user) => user.id === this.marker.authorId
       );
     },
-    subscribers() {
-      const users = this.$store.getters.users;
-      return users.filter((user) => this.marker.users.includes(user.id));
+    users() {
+      return this.$store.getters.users.filter((user) =>
+        this.marker.users.includes(user.id)
+      );
     },
   },
 };
