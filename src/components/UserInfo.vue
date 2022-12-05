@@ -1,6 +1,6 @@
 <template>
   <div class="user">
-    <UserLogo :data="data" />
+    <UserLogo :user="user" />
     <div class="user__title">
       <div class="user__name">{{ name }}</div>
       <div v-if="isItMe" class="user__who">(Вы)</div>
@@ -28,44 +28,20 @@
 import UserLogo from "@/components/UserLogo";
 export default {
   components: { UserLogo },
-  props: {
-    data: {
-      type: Object,
-      default: () => ({
-        image: null,
-        name: "User unnamed",
-        isItMe: false,
-      }),
-    },
-  },
+  props: ["user"],
   data: () => ({
     logoColor: "#333",
   }),
-  async mounted() {
-    // console.log(this.$store.getters.users);
-    // console.log(await this.$store.dispatch("getUserById", 1));
-    console.log(2);
-  },
+  mounted() {},
   computed: {
-    computeLogoColor() {
-      const hue =
-        this.name.split("").reduce((sum, l) => {
-          return sum + l.charCodeAt(0);
-        }, 0) % 360;
-      const hsl = `hsl(${hue}, 65%, 66%)`;
-      return hsl;
-    },
-    letter() {
-      return this.name.charAt(0).toUpperCase();
-    },
     name() {
-      return this.data.name;
+      return this.user.name;
     },
     isItMe() {
-      return this.data.isItMe;
+      return this.user.isItMe;
     },
     image() {
-      return this.data.image;
+      return this.user.image;
     },
   },
 };

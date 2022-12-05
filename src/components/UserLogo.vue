@@ -29,32 +29,25 @@
 
 <script>
 export default {
-  props: {
-    data: {
-      type: Object,
-      default: () => ({
-        image: null,
-        name: "User unnamed",
-      }),
-    },
-  },
+  props: ["user"],
   data: () => ({
     logoColor: "#333",
   }),
+  mounted() {},
   computed: {
     computeLogoColor() {
       const hue =
-        this.data.name.split("").reduce((sum, l) => {
+        this.user.name.split("").reduce((sum, l) => {
           return sum + l.charCodeAt(0);
         }, 0) % 360;
       const hsl = `hsl(${hue}, 65%, 66%)`;
       return hsl;
     },
     letter() {
-      return this.data.name.charAt(0).toUpperCase();
+      return this.user.name.charAt(0).toUpperCase();
     },
     image() {
-      return this.data.image;
+      return this.user.image;
     },
   },
 };

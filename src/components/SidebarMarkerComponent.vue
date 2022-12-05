@@ -1,16 +1,14 @@
 <template>
   <div class="marker">
-    <UserInfo :data="data.user" />
+    <UserInfo :user="author" />
     <div class="marker__info">
       <div class="marker__title">{{ title }}</div>
       <div class="marker__date">{{ date }}</div>
     </div>
-    <div class="marker__content">{{ text }}</div>
-    <div class="marker__footer" v-if="comments.length > 1">
+    <div class="marker__content"></div>
+    <div class="marker__footer" v-if="subscribers.length > 1">
       <div class="marker__footer-users">
-        <UserLogo :data="{ name: 'Rifat' }" />
-        <UserLogo :data="{ name: 'Anastasia' }" />
-        <UserLogo :data="{ name: 'Rishat' }" />
+        <UserLogo v-for="sub in subscribers" :key="sub.id" :user="sub" />
       </div>
       <div class="marker__footer-comments">{{ commentsCount }}</div>
       <i class="marker__footer-icon">
@@ -109,38 +107,29 @@ import UserInfo from "@/components/UserInfo";
 import UserLogo from "@/components/UserLogo";
 export default {
   components: { UserInfo, UserLogo },
-  props: {
-    data: {
-      type: Object,
-      default: () => ({
-        user: null,
-        date: "dd-mm-yyyy",
-        title: "",
-        comments: {
-          type: Array,
-        },
-      }),
-    },
-  },
+  props: ["marker"],
   mounted() {},
   computed: {
     date() {
-      return this.data.date || "dd-mm-yyyy";
-    },
-    text() {
-      return (
-        this.data.text ||
-        "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Assumenda beatae, doloremque fuga minima repellat tenetur. Doloremque eius et eum fugit itaque iure magnam placeat quos recusandae, velit! Hic, labore suscipit?"
-      );
+      return this.marker.date || "dd-mm-yyyy";
     },
     comments() {
-      return this.data.comments;
+      return [];
     },
     commentsCount() {
       return `${this.comments.length} ответ`;
     },
     title() {
-      return this.data.title;
+      return this.marker.title;
+    },
+    author() {
+      return this.$store.getters.users.find(
+        (user) => user.id === this.marker.createdBy
+      );
+    },
+    subscribers() {
+      const users = this.$store.getters.users;
+      return users.filter((user) => this.marker.users.includes(user.id));
     },
   },
 };

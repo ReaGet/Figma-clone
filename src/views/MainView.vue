@@ -12,6 +12,7 @@ export default {
   components: { SidebarEl, CanvasEl },
   data: () => ({
     isOpen: true,
+    comments: null,
   }),
   methods: {
     toggleSidebar() {
