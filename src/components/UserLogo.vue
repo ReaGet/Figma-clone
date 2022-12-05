@@ -12,8 +12,8 @@
     border-radius: 50%;
     overflow: hidden;
     background-color: red;
-    width: 30px;
-    height: 30px;
+    width: 24px;
+    height: 24px;
     display: flex;
     align-items: center;
     justify-content: center;
