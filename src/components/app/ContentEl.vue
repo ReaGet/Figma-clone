@@ -79,8 +79,8 @@ export default {
     },
     getPosition(event) {
       return {
-        x: event.pageX - 17,
-        y: event.pageY - 17,
+        x: event.pageX - 12,
+        y: event.pageY - 12,
       };
     },
   },

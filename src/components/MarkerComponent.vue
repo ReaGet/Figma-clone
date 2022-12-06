@@ -65,6 +65,7 @@
 </template>
 
 <style lang="scss">
+$transition-speed: 0.1s;
 .marker {
   position: absolute;
   &__inner {
@@ -78,17 +79,20 @@
     background-color: #fff;
     box-shadow: 0 0 10px rgb(0 0 0 / 10%);
     display: flex;
-    transition: min-width 0.2s ease-in-out, padding 0.2s ease-in-out;
+    transition: min-width $transition-speed ease-in-out,
+      padding $transition-speed ease-in-out;
   }
   &__content {
     visibility: hidden;
     overflow: hidden;
     max-width: 0;
     font-size: 11px;
-    transition: max-width 0.2s ease-in-out, max-height 0.2s ease-in-out,
-      margin-left 0.2s ease-in-out;
+    transition: max-width $transition-speed ease-in-out,
+      max-height $transition-speed ease-in-out,
+      margin-left $transition-speed ease-in-out;
   }
   &:not(.creating):hover {
+    z-index: 30;
     .marker__inner {
       min-width: 240px;
       padding: 5px;
@@ -119,7 +123,7 @@
     max-height: 0px;
     min-width: 180px;
     overflow: hidden;
-    transition: max-height 0.2s ease-in-out;
+    transition: max-height $transition-speed ease-in-out;
   }
   &__form {
     z-index: 20;
