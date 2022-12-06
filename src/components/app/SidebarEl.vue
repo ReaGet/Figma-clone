@@ -3,7 +3,7 @@
     <FilterComponent />
     <div class="markers__wrapper">
       <SidebarMarkerComponent
-        v-for="marker in markers"
+        v-for="marker in markers.slice().reverse()"
         :key="marker.id"
         :marker="marker"
       />
@@ -18,7 +18,7 @@
   height: 100vh;
   background-color: #f0f0f0;
   position: fixed;
-  z-index: 20;
+  z-index: 40;
   right: -100%;
   top: 0;
   padding: 10px 10px 60px 10px;
@@ -31,7 +31,7 @@
 .markers__wrapper {
   margin-top: 10px;
   padding-right: 10px;
-  overflow-y: scroll;
+  overflow-y: auto;
   height: 100%;
   &::-webkit-scrollbar {
     width: 5px;

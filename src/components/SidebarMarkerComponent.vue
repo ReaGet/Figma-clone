@@ -5,7 +5,7 @@
       <div class="sidebar-marker__title">{{ title }}</div>
       <div class="sidebar-marker__date">{{ date }}</div>
     </div>
-    <div class="sidebar-marker__content"></div>
+    <div class="sidebar-marker__content">{{ marker.firstComment }}</div>
     <div class="sidebar-marker__footer" v-if="users.length > 1">
       <div class="sidebar-marker__footer-users">
         <UserLogo v-for="user in users" :key="user.id" :user="user" />
@@ -58,7 +58,9 @@ $border-radius: 6px;
   }
   &__content {
     text-align: left;
-    font-size: 0.9rem;
+    font-size: 12px;
+    color: rgba(0, 0, 0, 0.9);
+    line-height: 1.2em;
   }
   &__footer {
     background-color: #f5f5f5;

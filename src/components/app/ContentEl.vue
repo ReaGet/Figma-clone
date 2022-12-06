@@ -71,6 +71,7 @@ export default {
         authorId: currentId,
         users: users,
         state: "creating",
+        firstComment: data.comment,
         position: this.position,
       };
     },

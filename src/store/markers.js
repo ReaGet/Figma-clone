@@ -7,6 +7,7 @@ export default {
         date: "02.12.2022",
         authorId: 1,
         users: [1, 2],
+        firstComment: "First comment",
         position: {
           x: 100,
           y: 100,
@@ -18,6 +19,9 @@ export default {
         date: "02.12.2022",
         authorId: 4,
         users: [1, 2],
+        firstComment: `Lorem ipsum dolor sit amet, consectetur adipisicing elit. Lorem ipsum
+          dolor sit amet, consectetur adipisicing elit. Lorem ipsum dolor sit
+          amet, consectetur adipisicing elit.`,
         position: {
           x: 300,
           y: 350,
@@ -29,6 +33,7 @@ export default {
         date: "01.11.2022",
         authorId: 3,
         users: [1, 2, 3],
+        firstComment: "asdfasdf hasfdhasd comment",
         position: {
           x: 500,
           y: 600,

@@ -12,11 +12,7 @@
           <div class="marker__author">{{ userName }}</div>
           <div class="marker__date">{{ marker.date }}</div>
         </div>
-        <div class="marker__comment">
-          Lorem ipsum dolor sit amet, consectetur adipisicing elit. Lorem ipsum
-          dolor sit amet, consectetur adipisicing elit. Lorem ipsum dolor sit
-          amet, consectetur adipisicing elit.
-        </div>
+        <div class="marker__comment">{{ marker.firstComment }}</div>
       </div>
       <form
         @submit.prevent="submitMarker"
