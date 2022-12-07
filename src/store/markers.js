@@ -1,5 +1,7 @@
+/* eslint-disable */
 export default {
   state: {
+    activeMarker: null,
     markers: [
       {
         id: 1,
@@ -14,11 +16,11 @@ export default {
         },
       },
       {
-        id: 5,
+        id: 3,
         title: "#Этаж 3, прихожая",
         date: "02.12.2022",
         authorId: 4,
-        users: [1, 2],
+        users: [1, 4],
         firstComment: `Lorem ipsum dolor sit amet, consectetur adipisicing elit. Lorem ipsum
           dolor sit amet, consectetur adipisicing elit. Lorem ipsum dolor sit
           amet, consectetur adipisicing elit.`,
@@ -48,6 +50,18 @@ export default {
   },
   actions: {
     async getMarkers() {},
+    async createMarker({}, marker) {
+      try {
+        await fetch("http://db/markers/create/", {
+          method: 'POST',
+          mode: 'cors',
+          body: JSON.stringify(marker),
+        });
+        return marker;
+      } catch(e) {
+        console.log(e);
+      }
+    },
   },
   getters: {
     markers: (state) => state.markers,

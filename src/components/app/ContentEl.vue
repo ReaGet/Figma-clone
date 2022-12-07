@@ -1,18 +1,19 @@
 <template>
   <div class="content" @click="handleContentClick">
     <div>canvas</div>
-    <MarkerComponent
-      :marker="{ position, isCreating }"
-      v-if="isCreating"
-      @submitMarker="submitMarker"
-      @cancelMarker="cancelMarker"
-    />
     <div class="markers">
+      <MarkerComponent
+        :marker="{ position, isCreating }"
+        v-if="isCreating"
+        @submitMarker="submitMarker"
+        @cancelMarker="cancelMarker"
+      />
       <MarkerComponent
         v-for="marker in markers"
         :key="marker.id"
         :marker="marker"
         @markerClick="handleMarkerClick"
+        @cancelMarker="cancelMarker"
       />
     </div>
   </div>
@@ -39,6 +40,7 @@ export default {
   data: () => ({
     isCreating: false,
     position: {},
+    clickedMarker: null,
   }),
   computed: {
     markers() {
@@ -47,15 +49,22 @@ export default {
   },
   methods: {
     handleMarkerClick(marker) {
-      console.log(marker);
+      this.clickedMarker = marker;
+      this.isCreating = false;
     },
     handleContentClick(event) {
+      if (this.clickedMarker) {
+        return;
+      }
       this.isCreating = !this.isCreating;
       this.position = this.getPosition(event);
     },
-    submitMarker(data) {
+    async submitMarker(data) {
       this.isCreating = false;
-      const marker = this.createMarker(data);
+      const marker = await this.$store.dispatch(
+        "createMarker",
+        this.createMarker(data)
+      );
       this.$store.commit("addMarker", marker);
     },
     createMarker(data) {
@@ -70,13 +79,13 @@ export default {
         date: this.dateFilter(new Date()),
         authorId: currentId,
         users: users,
-        state: "creating",
         firstComment: data.comment,
         position: this.position,
       };
     },
     cancelMarker() {
       this.isCreating = false;
+      this.clickedMarker = null;
     },
     getPosition(event) {
       return {

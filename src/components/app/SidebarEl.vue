@@ -1,13 +1,10 @@
 <template>
-  <div ref="sidebar" class="sidebar" :class="{ open: isOpen }">
-    <FilterComponent />
-    <div class="markers__wrapper">
-      <SidebarMarkerComponent
-        v-for="marker in markers.slice().reverse()"
-        :key="marker.id"
-        :marker="marker"
-      />
-    </div>
+  <div
+    ref="sidebar"
+    class="sidebar"
+    :class="{ open: isOpen, right: right, left: left }"
+  >
+    <slot />
   </div>
 </template>
 
@@ -19,13 +16,22 @@
   background-color: #f0f0f0;
   position: fixed;
   z-index: 40;
-  right: -100%;
   top: 0;
   padding: 10px 10px 60px 10px;
-  transition: right 0.2s ease-in-out;
+  transition: right 0.2s ease-in-out, left 0.2s ease-in-out;
 
-  &.open {
-    right: 0;
+  &.right {
+    right: -100%;
+    &.open {
+      right: 0;
+    }
+  }
+
+  &.left {
+    left: -100%;
+    &.open {
+      left: 0;
+    }
   }
 }
 .markers__wrapper {
@@ -46,14 +52,19 @@
 </style>
 
 <script>
-import FilterComponent from "@/components/FilterComponent";
-import SidebarMarkerComponent from "@/components/SidebarMarkerComponent";
 export default {
-  components: { SidebarMarkerComponent, FilterComponent },
-  props: ["isOpen"],
-  computed: {
-    markers() {
-      return this.$store.getters.markers;
+  props: {
+    isOpen: {
+      type: Boolean,
+      default: false,
+    },
+    left: {
+      type: Boolean,
+      default: false,
+    },
+    right: {
+      type: Boolean,
+      default: false,
     },
   },
 };
