@@ -27,6 +27,13 @@
             </div>
           </div>
           <div class="marker__form-middle">
+            <div class="marker__form-comments" v-if="!isCreating">
+              <CommentComponent
+                v-for="comment in comments"
+                :key="comment.id"
+                :comment="comment"
+              />
+            </div>
             <TextareaComponent
               @handleSubmit="submitMarker"
               @textareaInput="textareaInput"
@@ -181,6 +188,7 @@ import UserLogo from "@/components/UserLogo.vue";
 import TextareaComponent from "@/components/ui/TextareaComponent.vue";
 import UserSelectComponent from "@/components/ui/UserSelectComponent";
 import IconComponent from "@/components/IconComponent";
+import CommentComponent from "@/components/CommentComponent.vue";
 
 export default {
   components: {
@@ -188,6 +196,7 @@ export default {
     UserLogo,
     TextareaComponent,
     IconComponent,
+    CommentComponent,
   },
   data: () => ({
     comment: "",
@@ -219,6 +228,20 @@ export default {
     },
     isCreating() {
       return this.marker.isCreating || false;
+    },
+    comments() {
+      // const comments = [
+      //   {
+      //     user: this.marker.authorId,
+      //     text: this.marker.firstComment,
+      //     date: this.marker.date,
+      //   },
+      // ];
+      const comments = [];
+      comments.push(
+        this.$store.getters.getCommentsById(this.marker.id).content
+      );
+      return comments;
     },
   },
   methods: {

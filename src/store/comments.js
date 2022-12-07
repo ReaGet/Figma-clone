@@ -57,4 +57,9 @@ export default {
       },
     },
   },
+  getters: {
+    getCommentsById: (state) => (markerId) => {
+      return state.comments[markerId];
+    },
+  },
 };

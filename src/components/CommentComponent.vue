@@ -1,15 +1,15 @@
 <template>
-  <div class="marker">
+  <div class="comment">
     <div class="comment__info">
-      <UserInfo :data="data.user" />
-      <div class="comment__date">{{ date }}</div>
+      <UserInfo :user="comment.user" />
+      <div class="comment__date">{{ comment.date }}</div>
     </div>
-    <div class="comment__content">{{ text }}</div>
+    <div class="comment__content">{{ comment.text }}</div>
   </div>
 </template>
 
 <style lang="scss">
-.marker {
+.comment {
   & + & {
     margin-top: 20px;
   }
@@ -35,27 +35,15 @@
 import UserInfo from "@/components/UserInfo";
 export default {
   components: { UserInfo },
-  props: {
-    data: {
-      type: Object,
-      default: () => ({
-        user: null,
-        date: "dd-mm-yyyy",
-        text: "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Assumenda beatae, doloremque fuga minima repellat tenetur. Doloremque eius et eum fugit itaque iure magnam placeat quos recusandae, velit! Hic, labore suscipit?",
-      }),
-    },
-  },
+  props: ["comment"],
   mounted() {},
   computed: {
-    date() {
-      console.log(this.data);
-      return this.data.date || "dd-mm-yyyy";
-    },
-    text() {
-      return (
-        this.data.text ||
-        "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Assumenda beatae, doloremque fuga minima repellat tenetur. Doloremque eius et eum fugit itaque iure magnam placeat quos recusandae, velit! Hic, labore suscipit?"
+    user() {
+      const user = this.$store.getters.users.find(
+        (user) => user.id === this.comment.user
       );
+      console.log(user);
+      return user;
     },
   },
 };

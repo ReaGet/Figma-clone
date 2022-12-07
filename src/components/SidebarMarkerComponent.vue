@@ -10,7 +10,7 @@
       <div class="sidebar-marker__footer-users">
         <UserLogo v-for="user in users" :key="user.id" :user="user" />
       </div>
-      <div class="sidebar-marker__footer-comments"></div>
+      <div class="sidebar-marker__footer-comments">{{ commentsCount }}</div>
       <i class="sidebar-marker__footer-icon">
         <svg
           width="24px"
@@ -122,10 +122,10 @@ export default {
       );
     },
     comments() {
-      return [];
+      return this.$store.getters.getCommentsById(this.marker.id).content;
     },
     commentsCount() {
-      return `${this.comments.length} ответ`;
+      return `ответов ${this.comments.length + 1}`;
     },
     title() {
       return this.marker.title;

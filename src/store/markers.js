@@ -52,11 +52,11 @@ export default {
     async getMarkers() {},
     async createMarker({}, marker) {
       try {
-        await fetch("http://db/markers/create/", {
-          method: 'POST',
-          mode: 'cors',
-          body: JSON.stringify(marker),
-        });
+        // await fetch("http://db/markers/create/", {
+        //   method: 'POST',
+        //   mode: 'cors',
+        //   body: JSON.stringify(marker),
+        // });
         return marker;
       } catch(e) {
         console.log(e);
