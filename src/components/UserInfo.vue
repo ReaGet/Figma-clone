@@ -2,7 +2,7 @@
   <div class="user">
     <UserLogo :user="user" />
     <div class="user__title">
-      <div class="user__name"></div>
+      <div class="user__name">{{ user.name }}</div>
       <div class="user__who" v-if="user.id === currentId">(Вы)</div>
     </div>
   </div>
@@ -18,6 +18,7 @@
     flex-wrap: nowrap;
     padding: 0 5px;
     overflow: hidden;
+    font-size: 0.9rem;
   }
   &__name {
     width: 100%;
@@ -40,7 +41,8 @@ export default {
   async mounted() {
     // console.log(this.$store.getters.users);
     // console.log(await this.$store.dispatch("getUserById", 1));
-    console.log(this.user);
+    // console.log(this.user);
+    console.log();
   },
   computed: {
     currentId() {

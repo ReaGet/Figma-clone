@@ -34,13 +34,16 @@
                 :comment="comment"
               />
             </div>
-            <TextareaComponent
-              @handleSubmit="submitMarker"
-              @textareaInput="textareaInput"
-            />
-            <button class="marker__form-button" v-if="!isCreating">
-              <IconComponent :name="'send'" />
-            </button>
+            <div class="marker__form-inputs">
+              <TextareaComponent
+                @handleSubmit="submitMarker"
+                @textareaInput="textareaInput"
+                :placeholder="'Ответить'"
+              />
+              <button class="marker__form-button" v-if="!isCreating">
+                <IconComponent :name="'send'" />
+              </button>
+            </div>
           </div>
           <div class="marker__form-bottom" v-if="isCreating">
             <div class="marker__form-users">
@@ -128,10 +131,11 @@ $transition-speed: 0.1s;
     //left: 150%;
     left: 40px;
     top: -5px;
-    max-width: 269px;
+    width: 280px;
     box-shadow: 0 0 10px rgb(0 0 0 / 10%);
     border-radius: 6px;
-    background-color: rgba(255, 255, 255, 0.5);
+    //background-color: rgba(255, 255, 255, 0.5);
+    background-color: #e9e9e9;
     &-wrapper {
       display: flex;
       flex-direction: column;
@@ -151,6 +155,13 @@ $transition-speed: 0.1s;
       cursor: pointer;
     }
     &-middle {
+      display: flex;
+      flex-direction: column;
+    }
+    &-comments {
+      margin-bottom: 10px;
+    }
+    &-inputs {
       display: flex;
       align-items: flex-end;
       .marker__form-button {
@@ -207,7 +218,7 @@ export default {
   computed: {
     user() {
       return this.$store.getters.users.find(
-        (user) => this.marker.authorId === user.id
+        (user) => this.marker.authorId == user.id
       );
     },
     userName() {
@@ -216,7 +227,7 @@ export default {
     users() {
       const $users = [{ id: -1, name: "Выберите значение" }];
       this.$store.getters.users.forEach((user) => {
-        if (user.id !== this.$store.getters.currentId) {
+        if (user.id != this.$store.getters.currentId) {
           $users.push(user);
         }
       });
@@ -230,16 +241,15 @@ export default {
       return this.marker.isCreating || false;
     },
     comments() {
-      // const comments = [
-      //   {
-      //     user: this.marker.authorId,
-      //     text: this.marker.firstComment,
-      //     date: this.marker.date,
-      //   },
-      // ];
-      const comments = [];
+      const comments = [
+        {
+          user: this.marker.authorId,
+          text: this.marker.firstComment,
+          date: this.marker.date,
+        },
+      ];
       comments.push(
-        this.$store.getters.getCommentsById(this.marker.id).content
+        ...this.$store.getters.getCommentsById(this.marker.id).content
       );
       return comments;
     },

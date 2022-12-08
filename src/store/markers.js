@@ -1,4 +1,6 @@
 /* eslint-disable */
+import {createLogger} from "vuex";
+
 export default {
   state: {
     activeMarker: null,
@@ -49,15 +51,34 @@ export default {
     },
   },
   actions: {
-    async getMarkers() {},
-    async createMarker({}, marker) {
+    async getMarkers() {
       try {
-        // await fetch("http://db/markers/create/", {
-        //   method: 'POST',
-        //   mode: 'cors',
-        //   body: JSON.stringify(marker),
-        // });
-        return marker;
+        const markers = await fetch("http://db/markers/get/?project_id=0", {
+          method: 'GET',
+          mode: 'cors',
+          headers: {
+            "Content-Type": "application/json",
+          }
+        })
+          .then((res) => res.json());
+        return markers.data;
+      } catch(e) {
+        console.log(e);
+      }
+    },
+    async createMarker({}, marker) {
+      // console.log(JSON.stringify(marker));
+      try {
+        const result = await fetch("http://db/markers/create/", {
+          method: 'POST',
+          mode: 'cors',
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(marker),
+        }).then((res) => res.json());
+        result.position = JSON.parse(result.position);
+        return result;
       } catch(e) {
         console.log(e);
       }

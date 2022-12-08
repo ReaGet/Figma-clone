@@ -42,6 +42,10 @@ export default {
     position: {},
     clickedMarker: null,
   }),
+  async mounted() {
+    const markers = await this.$store.dispatch("getMarkers");
+    console.log(markers);
+  },
   computed: {
     markers() {
       return this.$store.getters.markers;
@@ -74,11 +78,12 @@ export default {
         users.push(data.sendTo.id);
       }
       return {
-        id: ~~(Math.random() * 100),
+        // id: ~~(Math.random() * 100),
         title: "#Этаж 1, прихожая",
         date: this.dateFilter(new Date()),
         authorId: currentId,
-        users: users,
+        projectId: 0,
+        // users: users,
         firstComment: data.comment,
         position: this.position,
       };

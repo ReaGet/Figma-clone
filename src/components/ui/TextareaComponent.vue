@@ -7,6 +7,7 @@
     v-model.trim="comment"
     class="textarea"
     @keydown.enter="handleEnter"
+    :placeholder="placeholder"
   ></textarea>
 </template>
 
@@ -19,12 +20,17 @@
   border: 1px solid #e0e0e0;
   color: #555555;
   font-size: 14px;
+  width: 100%;
   resize: none;
+  &::placeholder {
+    color: #ccc;
+  }
 }
 </style>
 
 <script>
 export default {
+  props: ["placeholder"],
   data: () => ({
     comment: "",
   }),

@@ -44,9 +44,9 @@ $border-radius: 6px;
   & + & {
     margin-top: 15px;
   }
-  .user__title {
-    font-size: 0.9rem;
-  }
+  //.user__title {
+  //  font-size: 0.9rem;
+  //}
   &__info {
     display: flex;
     align-items: center;
@@ -113,13 +113,10 @@ export default {
   mounted() {},
   computed: {
     date() {
-      return this.marker.date || "dd-mm-yyyy";
+      return this.marker.date;
     },
     text() {
-      return (
-        this.marker.text ||
-        "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Assumenda beatae, doloremque fuga minima repellat tenetur. Doloremque eius et eum fugit itaque iure magnam placeat quos recusandae, velit! Hic, labore suscipit?"
-      );
+      return this.marker.text;
     },
     comments() {
       return this.$store.getters.getCommentsById(this.marker.id).content;
@@ -132,7 +129,7 @@ export default {
     },
     author() {
       return this.$store.getters.users.find(
-        (user) => user.id === this.marker.authorId
+        (user) => user.id == this.marker.authorId
       );
     },
     users() {

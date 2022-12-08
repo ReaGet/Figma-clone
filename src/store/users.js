@@ -1,6 +1,6 @@
 export default {
   state: {
-    currentId: 1,
+    currentId: 42,
     users: [
       {
         id: 1,

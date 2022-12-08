@@ -1,8 +1,8 @@
 <template>
   <div class="comment">
     <div class="comment__info">
-      <UserInfo :user="comment.user" />
-      <div class="comment__date">{{ comment.date }}</div>
+      <UserInfo :user="user" />
+      <div class="comment__date">{{ dateFilter(comment.date) }}</div>
     </div>
     <div class="comment__content">{{ comment.text }}</div>
   </div>
@@ -25,18 +25,24 @@
   }
   &__content {
     text-align: left;
-    padding-left: 45px;
+    //padding-left: 29px;
+    padding-top: 10px;
     font-size: 0.9rem;
+    color: #555555;
   }
 }
 </style>
 
 <script>
 import UserInfo from "@/components/UserInfo";
+import dateMixin from "@/mixins/dateMixin";
 export default {
   components: { UserInfo },
+  mixins: [dateMixin],
   props: ["comment"],
-  mounted() {},
+  mounted() {
+    console.log(this.comment);
+  },
   computed: {
     user() {
       const user = this.$store.getters.users.find(
