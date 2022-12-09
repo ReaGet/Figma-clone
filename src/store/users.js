@@ -3,7 +3,7 @@ export default {
     currentId: 42,
     users: [
       {
-        id: 1,
+        id: 42,
         name: "Рифат",
         image: null,
         role: 1,

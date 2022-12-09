@@ -11,7 +11,7 @@
   >
     Users
   </button>
-  <ContentEl />
+  <ContentEl :markers="markers" />
   <SidebarEl :isOpen="isUsersSidebarOpen" :left="true"></SidebarEl>
   <SidebarEl :isOpen="isMarkersSidebarOpen" :right="true">
     <FilterComponent />
@@ -43,6 +43,10 @@ export default {
     isMarkersSidebarOpen: true,
     comments: null,
   }),
+  async mounted() {
+    // await this.$store.dispatch("getMarkers");
+    console.log();
+  },
   computed: {
     markers() {
       return this.$store.getters.markers;

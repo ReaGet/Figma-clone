@@ -8,9 +8,9 @@ export default {
       {
         id: 1,
         title: "#Этаж 1, прихожая",
-        date: "02.12.2022",
-        authorId: 1,
-        users: [1, 2],
+        created: "02.12.2022",
+        authorId: 42,
+        users: [42, 2],
         firstComment: "First comment",
         position: {
           x: 100,
@@ -20,9 +20,9 @@ export default {
       {
         id: 3,
         title: "#Этаж 3, прихожая",
-        date: "02.12.2022",
+        created: "02.12.2022",
         authorId: 4,
-        users: [1, 4],
+        users: [42, 4],
         firstComment: `Lorem ipsum dolor sit amet, consectetur adipisicing elit. Lorem ipsum
           dolor sit amet, consectetur adipisicing elit. Lorem ipsum dolor sit
           amet, consectetur adipisicing elit.`,
@@ -34,9 +34,9 @@ export default {
       {
         id: 2,
         title: "#Этаж 11, гостиная",
-        date: "01.11.2022",
+        created: "01.11.2022",
         authorId: 3,
-        users: [1, 2, 3],
+        users: [42, 2, 3],
         firstComment: "asdfasdf hasfdhasd comment",
         position: {
           x: 500,
@@ -47,29 +47,31 @@ export default {
   },
   mutations: {
     addMarker(state, marker) {
+      if (Array.isArray(marker)) {
+        state.markers.push(...marker);
+        return;
+      }
       state.markers.push(marker);
     },
   },
   actions: {
-    async getMarkers() {
+    async getMarkers({ commit }) {
       try {
-        const markers = await fetch("http://db/markers/get/?project_id=0", {
+        const markers = await fetch("http://figma.clone/markers/get/?projectId=0", {
           method: 'GET',
           mode: 'cors',
-          headers: {
-            "Content-Type": "application/json",
-          }
         })
-          .then((res) => res.json());
-        return markers.data;
+        .then((res) => res.json());
+        // commit("addMarker", markers);
       } catch(e) {
         console.log(e);
       }
     },
     async createMarker({}, marker) {
       // console.log(JSON.stringify(marker));
+      const parse = (json) => JSON.parse(json);
       try {
-        const result = await fetch("http://db/markers/create/", {
+        const result = await fetch("http://figma.clone/markers/create/", {
           method: 'POST',
           mode: 'cors',
           headers: {
@@ -77,7 +79,8 @@ export default {
           },
           body: JSON.stringify(marker),
         }).then((res) => res.json());
-        result.position = JSON.parse(result.position);
+        result.position = parse(result.position);
+        console.log(result);
         return result;
       } catch(e) {
         console.log(e);

@@ -113,7 +113,7 @@ export default {
   mounted() {},
   computed: {
     date() {
-      return this.marker.date;
+      return this.marker.created;
     },
     text() {
       return this.marker.text;
@@ -134,7 +134,7 @@ export default {
     },
     users() {
       return this.$store.getters.users.filter((user) =>
-        this.marker.users.includes(user.id)
+        this.marker?.users?.includes(user.id)
       );
     },
   },

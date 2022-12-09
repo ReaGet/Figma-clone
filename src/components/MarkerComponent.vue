@@ -245,7 +245,7 @@ export default {
         {
           user: this.marker.authorId,
           text: this.marker.firstComment,
-          date: this.marker.date,
+          created: this.marker.created,
         },
       ];
       comments.push(

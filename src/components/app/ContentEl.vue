@@ -37,20 +37,18 @@ import dateFilter from "@/mixins/dateMixin";
 export default {
   components: { MarkerComponent },
   mixins: [dateFilter],
+  props: ["markers"],
   data: () => ({
     isCreating: false,
     position: {},
     clickedMarker: null,
   }),
-  async mounted() {
-    const markers = await this.$store.dispatch("getMarkers");
-    console.log(markers);
-  },
-  computed: {
-    markers() {
-      return this.$store.getters.markers;
-    },
-  },
+  async mounted() {},
+  // computed: {
+  //   markers() {
+  //     return this.$store.getters.markers;
+  //   },
+  // },
   methods: {
     handleMarkerClick(marker) {
       this.clickedMarker = marker;
@@ -64,11 +62,14 @@ export default {
       this.position = this.getPosition(event);
     },
     async submitMarker(data) {
-      this.isCreating = false;
       const marker = await this.$store.dispatch(
         "createMarker",
         this.createMarker(data)
       );
+      if (!marker) {
+        return;
+      }
+      this.isCreating = false;
       this.$store.commit("addMarker", marker);
     },
     createMarker(data) {
@@ -80,7 +81,7 @@ export default {
       return {
         // id: ~~(Math.random() * 100),
         title: "#Этаж 1, прихожая",
-        date: this.dateFilter(new Date()),
+        created: new Date(),
         authorId: currentId,
         projectId: 0,
         // users: users,

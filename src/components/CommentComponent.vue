@@ -2,7 +2,7 @@
   <div class="comment">
     <div class="comment__info">
       <UserInfo :user="user" />
-      <div class="comment__date">{{ dateFilter(comment.date) }}</div>
+      <div class="comment__date">{{ dateFilter(comment.created) }}</div>
     </div>
     <div class="comment__content">{{ comment.text }}</div>
   </div>
