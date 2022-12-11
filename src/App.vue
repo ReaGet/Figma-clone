@@ -1,12 +1,11 @@
 <template>
-  <MainView />
+  <router-view />
 </template>
 
 <script>
 import "@/assets/index.scss";
-import MainView from "@/views/MainView";
 
 export default {
-  components: { MainView },
+  computed: {},
 };
 </script>

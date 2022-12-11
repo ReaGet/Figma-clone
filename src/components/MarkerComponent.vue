@@ -248,9 +248,9 @@ export default {
           created: this.marker.created,
         },
       ];
-      comments.push(
-        ...this.$store.getters.getCommentsById(this.marker.id).content
-      );
+      // comments.push(
+      //   ...this.$store.getters.getCommentsById(this.marker.id).content
+      // );
       return comments;
     },
   },

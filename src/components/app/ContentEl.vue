@@ -79,12 +79,12 @@ export default {
         users.push(data.sendTo.id);
       }
       return {
-        // id: ~~(Math.random() * 100),
+        id: ~~(Math.random() * 100),
         title: "#Этаж 1, прихожая",
         created: new Date(),
         authorId: currentId,
-        projectId: 0,
-        // users: users,
+        parentId: this.$store.getters.currentProjectId,
+        users: users,
         firstComment: data.comment,
         position: this.position,
       };

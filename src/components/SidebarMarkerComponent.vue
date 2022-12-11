@@ -107,13 +107,15 @@ $border-radius: 6px;
 <script>
 import UserInfo from "@/components/UserInfo";
 import UserLogo from "@/components/UserLogo.vue";
+import dateMixin from "@/mixins/dateMixin";
 export default {
   components: { UserInfo, UserLogo },
   props: ["marker"],
+  mixins: [dateMixin],
   mounted() {},
   computed: {
     date() {
-      return this.marker.created;
+      return this.dateFilter(this.marker.created);
     },
     text() {
       return this.marker.text;

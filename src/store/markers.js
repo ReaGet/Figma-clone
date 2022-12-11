@@ -12,6 +12,7 @@ export default {
         authorId: 42,
         users: [42, 2],
         firstComment: "First comment",
+        parentId: 1,
         position: {
           x: 100,
           y: 100,
@@ -26,6 +27,7 @@ export default {
         firstComment: `Lorem ipsum dolor sit amet, consectetur adipisicing elit. Lorem ipsum
           dolor sit amet, consectetur adipisicing elit. Lorem ipsum dolor sit
           amet, consectetur adipisicing elit.`,
+        parentId: 1,
         position: {
           x: 300,
           y: 350,
@@ -38,6 +40,7 @@ export default {
         authorId: 3,
         users: [42, 2, 3],
         firstComment: "asdfasdf hasfdhasd comment",
+        parentId: 2,
         position: {
           x: 500,
           y: 600,
@@ -69,6 +72,7 @@ export default {
     },
     async createMarker({}, marker) {
       // console.log(JSON.stringify(marker));
+      return marker;
       const parse = (json) => JSON.parse(json);
       try {
         const result = await fetch("http://figma.clone/markers/create/", {
