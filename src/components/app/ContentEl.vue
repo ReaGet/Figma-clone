@@ -10,7 +10,7 @@
       />
       <MarkerComponent
         v-for="marker in markers"
-        :key="marker.id"
+        :key="marker.markerId"
         :marker="marker"
         @markerClick="handleMarkerClick"
         @cancelMarker="cancelMarker"

@@ -61,6 +61,11 @@ export default {
       }
       state.markers = markers;
     },
+    removeMarker(state, markerId) {
+      state.markers = state.markers.filter((marker) => {
+        return marker.markerId != markerId;
+      });
+    }
   },
   actions: {
     async getMarkers({ commit, getters }) {
@@ -93,6 +98,18 @@ export default {
       } catch(e) {
         console.log(e);
       }
+    },
+    async acceptMarker({ commit }, markerId) {
+      await fetch(`http://figma.clone/markers/delete/?markerId=${markerId}`, {
+        method: 'GET',
+        mode: 'cors',
+      })
+        .then((res) => res.json())
+        .then((response) => {
+          if (response.result) {
+            commit("removeMarker", markerId);
+          }
+        });
     },
   },
   getters: {

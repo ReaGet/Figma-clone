@@ -24,8 +24,13 @@
         <div class="marker__form-wrapper">
           <div class="marker__form-top">
             <span class="marker__form-title">Ваш комментарий</span>
-            <div class="marker__form-close" @click.stop="cancelMarker">
-              &#10006;
+            <div class="marker__form-controls">
+              <div class="marker__form-accept" @click.stop="acceptMarker">
+                &check;
+              </div>
+              <div class="marker__form-close" @click.stop="cancelMarker">
+                &#10006;
+              </div>
             </div>
           </div>
           <div class="marker__form-middle">
@@ -161,14 +166,33 @@ $transition-speed: 0.1s;
     &-top {
       display: flex;
       justify-content: space-between;
+      align-items: center;
       margin-bottom: 10px;
     }
     &-title {
       font-weight: 600;
       font-size: 14px;
     }
-    &-close {
+    &-controls {
+      display: flex;
+    }
+    &-accept {
+      font-family: monospace;
+      font-size: 16px;
+      font-weight: 600;
+      margin-right: 5px;
+    }
+    &-close,
+    &-accept {
       cursor: pointer;
+      width: 20px;
+      height: 20px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      &:hover {
+        background-color: #e0e0e0;
+      }
     }
     &-middle {
       display: flex;
@@ -323,9 +347,11 @@ export default {
 
       this.setCommentsWrapperProps();
     },
-    setFormProps() {
-
+    acceptMarker() {
+      this.$store.dispatch("acceptMarker", this.marker.markerId);
+      this.$emit("cancelMarker");
     },
+    setFormProps() {},
     setCommentsWrapperProps() {
       setTimeout(() => {
         console.log(this.$refs);
