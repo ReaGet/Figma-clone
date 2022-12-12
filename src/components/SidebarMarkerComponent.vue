@@ -121,7 +121,8 @@ export default {
       return this.marker.text;
     },
     comments() {
-      return this.$store.getters.getCommentsById(this.marker.id).content;
+      console.log(this.marker.markerId);
+      return this.$store.getters.getCommentsById(this.marker.markerId).content;
     },
     commentsCount() {
       return `ответов ${this.comments.length + 1}`;

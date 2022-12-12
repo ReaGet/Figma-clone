@@ -41,14 +41,14 @@ export default {
   mixins: [dateMixin],
   props: ["comment"],
   mounted() {
-    console.log(this.comment);
+    // console.log(this.comment);
+    console.log();
   },
   computed: {
     user() {
       const user = this.$store.getters.users.find(
-        (user) => user.id === this.comment.user
+        (user) => user.id === this.comment.authorId
       );
-      console.log(user);
       return user;
     },
   },

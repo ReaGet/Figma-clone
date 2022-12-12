@@ -3,16 +3,22 @@ export default {
     currentProjectId: null,
     projects: [
       {
-        id: 1,
+        id: 0,
         date: new Date(),
         authorId: 42,
         title: "Project 1",
       },
       {
-        id: 2,
+        id: 1,
         date: new Date(),
         authorId: 42,
         title: "Project 2",
+      },
+      {
+        id: 2,
+        date: new Date(),
+        authorId: 42,
+        title: "Project 3",
       },
     ],
   },

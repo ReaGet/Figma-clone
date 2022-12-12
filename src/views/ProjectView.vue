@@ -11,6 +11,12 @@
   >
     Users
   </button>
+  <button
+    @click="$router.push('/')"
+    style="position: absolute; z-index: 10; left: 10%"
+  >
+    Dashboard
+  </button>
   <ContentEl :markers="markers" />
   <SidebarEl :isOpen="isUsersSidebarOpen" :left="true"></SidebarEl>
   <SidebarEl :isOpen="isMarkersSidebarOpen" :right="true">
@@ -18,7 +24,7 @@
     <div class="markers__wrapper">
       <SidebarMarkerComponent
         v-for="marker in markers.slice().reverse()"
-        :key="marker.id"
+        :key="marker.markerId"
         :marker="marker"
       />
     </div>
@@ -45,8 +51,7 @@ export default {
   }),
   async mounted() {
     this.$store.commit("setCurrentProjectId", this.projectId);
-    // await this.$store.dispatch("getMarkers");
-    console.log();
+    await this.$store.dispatch("getMarkers");
   },
   computed: {
     projectId() {
@@ -54,7 +59,7 @@ export default {
     },
     markers() {
       return this.$store.getters.markers.filter((marker) => {
-        return marker.parentId === this.projectId;
+        return marker.projectId === this.projectId;
       });
     },
   },

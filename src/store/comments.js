@@ -1,18 +1,20 @@
+/* eslint-disable */
+
 export default {
   state: {
     comments: {
-      1: {
+      33: {
         content: [
           {
-            id: 1,
+            commentId: 1,
             text: "Test text",
-            user: 1,
+            authorId: 1,
             created: new Date(),
           },
           {
-            id: 2,
+            commentId: 2,
             text: "second test comment for marker #1",
-            user: 2,
+            authorId: 2,
             created: new Date(),
           },
         ],
@@ -20,21 +22,21 @@ export default {
       2: {
         content: [
           {
-            id: 1,
+            commentId: 1,
             text: "Test text",
-            user: 1,
+            authorId: 1,
             created: new Date(),
           },
           {
-            id: 2,
+            commentId: 2,
             text: "second test comment for marker #1",
-            user: 2,
+            authorId: 2,
             created: new Date(),
           },
           {
-            id: 3,
+            commentId: 3,
             text: "Test t assdasdasdfadsfext",
-            user: 3,
+            authorId: 3,
             created: new Date(),
           },
         ],
@@ -42,19 +44,66 @@ export default {
       3: {
         content: [
           {
-            id: 1,
+            commentId: 1,
             text: " asasdasdf aasdf text",
-            user: 1,
+            authorId: 1,
             created: new Date(),
           },
           {
-            id: 2,
+            commentId: 2,
             text: "second test comment for marker #1",
-            user: 4,
+            authorId: 4,
             created: new Date(),
           },
         ],
       },
+    },
+  },
+  mutations: {
+    addComment(state, { markerId, commentId, text, authorId, created}) {
+      if (!state.comments[markerId]) {
+        state.comments[markerId] = { content: [] };
+      }
+      state.comments[markerId].content.push({ commentId, text, authorId, created });
+    },
+    setComments(state, $comments) {
+      const comments = {};
+      $comments.map(({ markerId, commentId, text, authorId, created}) => {
+        if (!comments[markerId]) {
+          comments[markerId] = { content: [] };
+        }
+        comments[markerId].content.push({ commentId, text, authorId, created });
+      });
+      console.log(comments);
+      state.comments = comments;
+    }
+  },
+  actions: {
+    async addComment({}, comment) {
+      try {
+        const result = await fetch("http://figma.clone/comments/create/", {
+          method: 'POST',
+          mode: 'cors',
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(comment),
+        }).then((res) => res.json());
+        return result;
+      } catch(e) {
+        console.log(e);
+      }
+    },
+    async loadComments({ commit }, markerId) {
+      try {
+        const comments = await fetch(`http://figma.clone/comments/get/?markerId=${markerId}`, {
+          method: 'GET',
+          mode: 'cors',
+        }).then((res) => res.json());
+        commit("setComments", comments);
+      } catch(e) {
+        console.log(e);
+      }
     },
   },
   getters: {

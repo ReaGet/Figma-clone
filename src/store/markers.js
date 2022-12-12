@@ -1,5 +1,4 @@
 /* eslint-disable */
-import {createLogger} from "vuex";
 
 export default {
   state: {
@@ -56,23 +55,29 @@ export default {
       }
       state.markers.push(marker);
     },
+    setMarkers(state, markers) {
+      if (!Array.isArray(markers)) {
+        return;
+      }
+      state.markers = markers;
+    },
   },
   actions: {
-    async getMarkers({ commit }) {
+    async getMarkers({ commit, getters }) {
       try {
-        const markers = await fetch("http://figma.clone/markers/get/?projectId=0", {
+        const projectId = getters.currentProjectId;
+        const markers = await fetch(`http://figma.clone/markers/get/?projectId=${projectId}`, {
           method: 'GET',
           mode: 'cors',
         })
         .then((res) => res.json());
-        // commit("addMarker", markers);
+        markers.map((marker) => marker.position = JSON.parse(marker.position));
+        commit("setMarkers", markers);
       } catch(e) {
         console.log(e);
       }
     },
-    async createMarker({}, marker) {
-      // console.log(JSON.stringify(marker));
-      return marker;
+    async addMarker({}, marker) {
       const parse = (json) => JSON.parse(json);
       try {
         const result = await fetch("http://figma.clone/markers/create/", {
@@ -84,7 +89,6 @@ export default {
           body: JSON.stringify(marker),
         }).then((res) => res.json());
         result.position = parse(result.position);
-        console.log(result);
         return result;
       } catch(e) {
         console.log(e);

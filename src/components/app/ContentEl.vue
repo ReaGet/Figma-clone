@@ -14,6 +14,7 @@
         :marker="marker"
         @markerClick="handleMarkerClick"
         @cancelMarker="cancelMarker"
+        @submitComment="submitComment"
       />
     </div>
   </div>
@@ -63,7 +64,7 @@ export default {
     },
     async submitMarker(data) {
       const marker = await this.$store.dispatch(
-        "createMarker",
+        "addMarker",
         this.createMarker(data)
       );
       if (!marker) {
@@ -73,17 +74,16 @@ export default {
       this.$store.commit("addMarker", marker);
     },
     createMarker(data) {
-      const currentId = this.$store.getters.currentId;
-      const users = [currentId];
+      const users = [this.$store.getters.currentId];
       if (data.sendTo && data.sendTo.id > -1 && !users.includes(data.sendTo)) {
         users.push(data.sendTo.id);
       }
       return {
-        id: ~~(Math.random() * 100),
+        // id: ~~(Math.random() * 100),
         title: "#Этаж 1, прихожая",
         created: new Date(),
-        authorId: currentId,
-        parentId: this.$store.getters.currentProjectId,
+        authorId: this.$store.getters.currentId,
+        projectId: this.$store.getters.currentProjectId,
         users: users,
         firstComment: data.comment,
         position: this.position,
@@ -92,6 +92,25 @@ export default {
     cancelMarker() {
       this.isCreating = false;
       this.clickedMarker = null;
+    },
+    async submitComment(data) {
+      const comment = await this.$store.dispatch(
+        "addComment",
+        this.createComment(data)
+      );
+      if (!comment) {
+        return;
+      }
+      console.log(comment);
+      this.$store.commit("addComment", comment);
+    },
+    createComment(data) {
+      return {
+        text: data.comment,
+        created: new Date(),
+        authorId: this.$store.getters.currentId,
+        markerId: data.markerId,
+      };
     },
     getPosition(event) {
       return {

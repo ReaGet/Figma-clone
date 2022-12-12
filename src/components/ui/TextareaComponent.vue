@@ -54,6 +54,7 @@ export default {
       if (!event.ctrlKey && !event.shiftKey) {
         event.preventDefault();
         this.$emit("handleSubmit");
+        this.comment = "";
         return;
       }
       if (event.ctrlKey) {
