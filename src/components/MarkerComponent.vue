@@ -19,7 +19,7 @@
         @submit.prevent="submitMarker"
         class="marker__form"
         v-if="isCreating || opened"
-        :ref="markerFormEl"
+        ref="markerFormEl"
       >
         <div class="marker__form-wrapper">
           <div class="marker__form-top">
@@ -296,7 +296,7 @@ export default {
       }
       await this.$store.dispatch("loadComments", this.marker.markerId);
       this.opened = true;
-      this.setCommentsWrapper();
+      this.setCommentsWrapperProps();
       this.$emit("markerClick", this.marker);
     },
     cancelMarker() {
@@ -321,10 +321,14 @@ export default {
         markerId: this.marker.markerId,
       });
 
-      this.setCommentsWrapper();
+      this.setCommentsWrapperProps();
     },
-    setCommentsWrapper() {
+    setFormProps() {
+
+    },
+    setCommentsWrapperProps() {
       setTimeout(() => {
+        console.log(this.$refs);
         this.$refs.commentsEl.scrollTop = this.$refs.commentsEl.scrollHeight;
         this.$refs.markerFormEl.style.top = 0;
       }, 10);
