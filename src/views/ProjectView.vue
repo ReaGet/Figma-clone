@@ -17,7 +17,11 @@
   >
     Dashboard
   </button>
-  <ContentEl :markers="markers" />
+  <ContentEl
+    :markers="markers"
+    :isMarkersSidebarOpen="isMarkersSidebarOpen"
+    :isUsersSidebarOpen="isUsersSidebarOpen"
+  />
   <SidebarEl :isOpen="isUsersSidebarOpen" :left="true"></SidebarEl>
   <SidebarEl :isOpen="isMarkersSidebarOpen" :right="true">
     <FilterComponent />

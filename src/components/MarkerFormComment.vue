@@ -9,7 +9,11 @@
       <div class="marker__form-top">
         <span class="marker__form-title">Ваш комментарий</span>
         <div class="marker__form-controls">
-          <div class="marker__form-accept" @click.stop="removeMarker">
+          <div
+            class="marker__form-accept"
+            @click.stop="removeMarker"
+            v-if="can('deleteMarker')"
+          >
             &check;
           </div>
           <div class="marker__form-close" @click.stop="this.$emit('closeForm')">
@@ -45,7 +49,6 @@
 import TextareaComponent from "@/components/ui/TextareaComponent.vue";
 import IconComponent from "@/components/ui/IconComponent";
 import CommentComponent from "@/components/CommentComponent.vue";
-// import Faye from "@/utils/faye";
 
 export default {
   components: {
@@ -55,11 +58,15 @@ export default {
   },
   data: () => ({
     comment: "",
+    offset: {
+      x: 50,
+      y: -20,
+    },
+    contentEl: document.querySelector(".content"),
   }),
   props: ["marker"],
   mounted() {
-    this.$refs.markerFormEl.style.top = `${this.marker.position.y - 20}px`;
-    this.$refs.markerFormEl.style.left = `${this.marker.position.x + 50}px`;
+    this.setFormProperties();
   },
   computed: {
     comments() {
@@ -91,6 +98,7 @@ export default {
       if (!comment) {
         return;
       }
+      setTimeout(() => this.setFormProperties(), 100);
       this.comment = "";
     },
     removeMarker() {
@@ -104,6 +112,34 @@ export default {
         authorId: this.$store.getters.currentId,
         markerId: this.marker.markerId,
       };
+    },
+    can(perm) {
+      return this.$store.getters.can(perm);
+    },
+    setFormProperties() {
+      this.$refs.commentsEl.style.maxHeight = `${
+        this.contentEl.offsetHeight + this.offset.y * 2 - 100
+      }px`;
+      let { x, y } = this.calculateFormOffset(this.marker.position);
+      this.$refs.markerFormEl.style.top = `${y}px`;
+      this.$refs.markerFormEl.style.left = `${x}px`;
+    },
+    calculateFormOffset({ x, y }) {
+      let newX = x + this.offset.x,
+        newY = y + this.offset.y,
+        formWidth = this.$refs.markerFormEl.offsetWidth,
+        formHeight = this.$refs.markerFormEl.offsetHeight,
+        contentComputedStyles = getComputedStyle(this.contentEl),
+        contentWidth =
+          this.contentEl.offsetWidth -
+          parseFloat(contentComputedStyles.paddingRight) -
+          parseFloat(contentComputedStyles.paddingLeft),
+        contentHeight = this.contentEl.offsetHeight,
+        diffX = contentWidth - (newX + formWidth + this.offset.x),
+        diffY = contentHeight - (newY + formHeight - this.offset.y);
+      newX = Math.min(newX, Math.max(newX + diffX, this.offset.x));
+      newY = Math.min(newY, Math.max(newY + diffY, -this.offset.y));
+      return { x: newX, y: newY };
     },
   },
 };

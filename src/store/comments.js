@@ -61,7 +61,7 @@ export default {
     },
   },
   mutations: {
-    addComment(state, { markerId, commentId, text, authorId, created}) {
+    addComment(state, { markerId, commentId, text, authorId, created }) {
       if (!state.comments[markerId]) {
         state.comments[markerId] = { content: [] };
       }

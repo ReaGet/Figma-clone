@@ -1,5 +1,12 @@
 <template>
-  <div class="content" @click="handleContentClick">
+  <div
+    class="content"
+    :class="{
+      paddingRight: isMarkersSidebarOpen,
+      paddingLeft: isUsersSidebarOpen,
+    }"
+    @click="handleContentClick"
+  >
     <div>canvas</div>
     <div class="markers">
       <MarkerComponent :marker="{ position, isCreating }" v-if="isCreating" />
@@ -30,6 +37,12 @@
   position: relative;
   background-color: #aaa;
   height: 100vh;
+  &.paddingRight {
+    padding-right: 300px;
+  }
+  &.paddingLeft {
+    padding-left: 300px;
+  }
 }
 .markers {
   position: absolute;
@@ -45,7 +58,7 @@ import dateFilter from "@/mixins/dateMixin";
 export default {
   components: { MarkerFormCreate, MarkerComponent, MarkerFormComment },
   mixins: [dateFilter],
-  props: ["markers"],
+  props: ["markers", "isUsersSidebarOpen", "isMarkersSidebarOpen"],
   data: () => ({
     isCreating: false,
     clickedMarker: null,

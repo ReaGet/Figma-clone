@@ -46,7 +46,7 @@ export default {
   },
   computed: {
     currentId() {
-      return this.$store.getters.currentId;
+      return this.$store.getters.currentUser.id;
     },
   },
 };

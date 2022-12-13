@@ -1,9 +1,11 @@
 <template>
   <div
     class="marker"
-    :class="{ creating: isCreating, opened: opened }"
+    :class="{ creating: isCreating, opened: opened && !dragging }"
     :style="position"
+    draggable
     @click.stop="handleClick"
+    @dragstart.stop="startDrag($event)"
   >
     <div class="marker__inner">
       <UserLogo :user="user" v-if="!isCreating" />
@@ -21,9 +23,7 @@
 <style lang="scss">
 $transition-speed: 0.1s;
 .marker {
-  $--max-height: 500px;
-  $--top: 0;
-  $-left: 0;
+  user-select: none;
   position: absolute;
   &__inner {
     position: absolute;
@@ -95,6 +95,7 @@ export default {
   },
   data: () => ({
     opened: false,
+    dragging: false,
   }),
   props: ["marker"],
   mixins: [dateMixin],
@@ -128,6 +129,12 @@ export default {
         item: this.marker,
         close: () => (this.opened = false),
       });
+    },
+    startDrag(evt) {
+      console.log(this.dragging);
+      this.dragging = true;
+      evt.dataTransfer.dropEffect = "move";
+      evt.dataTransfer.effectAllowed = "move";
     },
   },
 };
