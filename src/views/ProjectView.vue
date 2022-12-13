@@ -36,6 +36,7 @@ import SidebarEl from "@/components/app/SidebarEl";
 import ContentEl from "@/components/app/ContentEl.vue";
 import SidebarMarkerComponent from "@/components/SidebarMarkerComponent";
 import FilterComponent from "@/components/FilterComponent";
+import Faye from "@/utils/faye";
 
 export default {
   components: {
@@ -50,6 +51,15 @@ export default {
     comments: null,
   }),
   async mounted() {
+    Faye.subscribe("/comment/add", (comment) => {
+      this.$store.commit("addComment", comment);
+    });
+    Faye.subscribe("/marker/add", (marker) => {
+      this.$store.commit("addMarker", marker);
+    });
+    Faye.subscribe("/marker/remove", (markerId) => {
+      this.$store.commit("removeMarker", markerId);
+    });
     this.$store.commit("setCurrentProjectId", this.projectId);
     await this.$store.dispatch("getMarkers");
   },

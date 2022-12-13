@@ -1,4 +1,5 @@
 /* eslint-disable */
+import Faye from "@/utils/faye";
 
 export default {
   state: {
@@ -74,12 +75,11 @@ export default {
         }
         comments[markerId].content.push({ commentId, text, authorId, created });
       });
-      console.log(comments);
       state.comments = comments;
     }
   },
   actions: {
-    async addComment({}, comment) {
+    async addCommentRequest({}, comment) {
       try {
         const result = await fetch("http://figma.clone/comments/create/", {
           method: 'POST',
@@ -89,6 +89,7 @@ export default {
           },
           body: JSON.stringify(comment),
         }).then((res) => res.json());
+        Faye.send("/comment/add", result);
         return result;
       } catch(e) {
         console.log(e);

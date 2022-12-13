@@ -1,4 +1,5 @@
 /* eslint-disable */
+import Faye from "@/utils/faye";
 
 export default {
   state: {
@@ -82,7 +83,7 @@ export default {
         console.log(e);
       }
     },
-    async addMarker({}, marker) {
+    async addMarkerRequest({}, marker) {
       const parse = (json) => JSON.parse(json);
       try {
         const result = await fetch("http://figma.clone/markers/create/", {
@@ -94,12 +95,14 @@ export default {
           body: JSON.stringify(marker),
         }).then((res) => res.json());
         result.position = parse(result.position);
+        Faye.send("/marker/add", result);
+
         return result;
       } catch(e) {
         console.log(e);
       }
     },
-    async acceptMarker({ commit }, markerId) {
+    async removeMarker({ commit }, markerId) {
       await fetch(`http://figma.clone/markers/delete/?markerId=${markerId}`, {
         method: 'GET',
         mode: 'cors',
@@ -107,7 +110,8 @@ export default {
         .then((res) => res.json())
         .then((response) => {
           if (response.result) {
-            commit("removeMarker", markerId);
+            // commit("removeMarker", markerId);
+            Faye.send("/marker/remove", markerId);
           }
         });
     },

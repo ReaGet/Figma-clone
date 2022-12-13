@@ -6,8 +6,8 @@
       <div class="sidebar-marker__date">{{ date }}</div>
     </div>
     <div class="sidebar-marker__content">{{ marker.firstComment }}</div>
-    <div class="sidebar-marker__footer" v-if="users.length > 1">
-      <div class="sidebar-marker__footer-users">
+    <div class="sidebar-marker__footer">
+      <div class="sidebar-marker__footer-users" v-if="users.length > 1">
         <UserLogo v-for="user in users" :key="user.id" :user="user" />
       </div>
       <div class="sidebar-marker__footer-comments">{{ commentsCount }}</div>
@@ -121,11 +121,12 @@ export default {
       return this.marker.text;
     },
     comments() {
-      console.log(this.marker.markerId);
-      return this.$store.getters.getCommentsById(this.marker.markerId).content;
+      return (
+        this.$store.getters.getCommentsById(this.marker.markerId)?.content || []
+      );
     },
     commentsCount() {
-      return `ответов ${this.comments.length + 1}`;
+      return `ответов ${this.comments.length || this.marker.commentsCount}`;
     },
     title() {
       return this.marker.title;

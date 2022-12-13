@@ -40,16 +40,13 @@ export default {
   components: { UserInfo },
   mixins: [dateMixin],
   props: ["comment"],
-  mounted() {
-    // console.log(this.comment);
-    console.log();
-  },
+  mounted() {},
   computed: {
     user() {
       const user = this.$store.getters.users.find(
         (user) => user.id === this.comment.authorId
       );
-      return user;
+      return user || {};
     },
   },
 };
