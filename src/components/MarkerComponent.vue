@@ -1,9 +1,9 @@
 <template>
   <div
     class="marker"
-    :class="{ creating: isCreating, opened: opened && !dragging }"
+    :class="{ creating: isCreating, opened: opened }"
     :style="position"
-    draggable
+    draggable="true"
     @click.stop="handleClick"
     @dragstart.stop="startDrag($event)"
   >
