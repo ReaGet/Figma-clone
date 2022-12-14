@@ -97,7 +97,7 @@ export default {
         authorId: this.$store.getters.currentUser.id,
         projectId: this.$store.getters.currentProjectId,
         users: users,
-        firstComment: this.comment,
+        // firstComment: this.comment,
         position: this.position,
       };
     },

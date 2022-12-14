@@ -21,7 +21,6 @@
     </div>
     <div class="marker__form-middle">
       <div ref="commentsEl" class="marker__form-comments">
-        <CommentComponent :comment="firstComment" />
         <CommentComponent
           v-for="comment in comments"
           :key="comment.commentId"
@@ -94,7 +93,14 @@ export default {
       if (!comment) {
         return;
       }
-      setTimeout(() => this.setFormProperties(), 100);
+      setTimeout(() => {
+        this.setFormProperties();
+        this.$store.commit("updateMarker", {
+          markerId: this.marker.markerId,
+          value: this.comments.length,
+        });
+      }, 100);
+
       this.comment = "";
     },
     removeMarker() {

@@ -70,7 +70,11 @@ export default {
     setMarkerOpen(state, { markerId, value }) {
       const index = state.markers.findIndex((marker) => marker.markerId === markerId);
       Object.assign(state.markers[index], { opened: value });
-    }
+    },
+    updateMarker(state, { markerId, value }) {
+      const index = state.markers.findIndex((marker) => marker.markerId === markerId);
+      Object.assign(state.markers[index], { commentsCount: value });
+    },
   },
   actions: {
     async getMarkers({ commit, getters }) {
