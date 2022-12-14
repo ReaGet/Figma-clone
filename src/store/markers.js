@@ -73,6 +73,9 @@ export default {
     },
     updateMarkerFirstComment(state, { markerId, comment }) {
       const index = state.markers.findIndex((marker) => marker.markerId === markerId);
+      if (state.markers[index].firstComment) {
+        return;
+      }
       Object.assign(state.markers[index], { "firstComment": comment });
     },
     updateMarkerCommentsCount(state, { markerId, value }) {

@@ -17,7 +17,6 @@
         <div class="marker__form-inputs">
           <TextareaComponent
             @handleSubmit="submitForm"
-            @textareaInput="(c) => (comment = c)"
             :placeholder="'Ответить'"
           />
         </div>
@@ -53,13 +52,11 @@ export default {
   },
   props: ["position"],
   data: () => ({
-    comment: "",
     sendTo: null,
   }),
   mounted() {
     this.$refs.markerWrapperEl.style.top = `${this.position.y - 20}px`;
     this.$refs.markerWrapperEl.style.left = `${this.position.x + 50}px`;
-    console.log(this.position);
   },
   computed: {
     users() {
@@ -73,8 +70,9 @@ export default {
     },
   },
   methods: {
-    async submitForm() {
-      if (!this.comment.length) {
+    async submitForm(comment) {
+      console.log(comment);
+      if (!comment.length) {
         return;
       }
       const marker = await this.$store.dispatch(
@@ -86,7 +84,7 @@ export default {
       }
       await this.$store.dispatch(
         "addCommentRequest",
-        this.createComment(marker)
+        this.createComment(marker, comment)
       );
       this.$emit("closeForm");
     },
@@ -105,9 +103,9 @@ export default {
         position: this.position,
       };
     },
-    createComment(marker) {
+    createComment(marker, comment) {
       return {
-        text: this.comment,
+        text: comment,
         created: new Date(),
         authorId: this.$store.getters.currentUser.id,
         markerId: marker.markerId,

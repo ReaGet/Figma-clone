@@ -5,8 +5,12 @@
       <div class="comment__date">{{ dateFilter(comment.created) }}</div>
     </div>
     <div class="comment__content" v-if="!editing">{{ comment.text }}</div>
-    <form class="marker__form-inputs" v-else>
-      <TextareaComponent @handleSubmit="submitForm" :placeholder="'Ответить'" />
+    <form class="marker__form-inputs" @submit.prevent="submitForm" v-else>
+      <TextareaComponent
+        @handleSubmit="submitForm"
+        :placeholder="'Ответить'"
+        :value="comment.text"
+      />
       <button class="marker__form-button">
         <IconComponent :name="'send'" />
       </button>
@@ -87,8 +91,12 @@ export default {
     },
   },
   methods: {
-    submitForm(comment) {
-      console.log(comment);
+    async submitForm(comment) {
+      console.log(this.comment.commentId, comment);
+      await this.$store.dispatch("updateCommentRequest", {
+        commentId: this.comment.commentId,
+        text: comment,
+      });
     },
     handleEditClick() {
       this.editing = true;

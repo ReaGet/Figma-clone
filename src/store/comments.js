@@ -55,6 +55,22 @@ export default {
         console.log(e);
       }
     },
+    async updateCommentRequest({}, data) {
+      try {
+        const result = await fetch("http://figma.clone/comments/update/", {
+          method: 'POST',
+          mode: 'cors',
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(data),
+        }).then((res) => res.json());
+        // Faye.send("/comment/add", result);
+        return result;
+      } catch(e) {
+        console.log(e);
+      }
+    },
     async loadComments({ commit }, markerId) {
       try {
         const comments = await fetch(`http://figma.clone/comments/get/?markerId=${markerId}`, {

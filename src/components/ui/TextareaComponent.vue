@@ -30,10 +30,21 @@
 
 <script>
 export default {
-  props: ["placeholder"],
-  data: () => ({
-    comment: "",
-  }),
+  props: {
+    placeholder: {
+      type: String,
+      default: "",
+    },
+    value: {
+      type: String,
+      default: "",
+    },
+  },
+  data() {
+    return {
+      comment: this.value,
+    };
+  },
   mounted() {
     if (this.$refs.textarea) {
       this.$refs.textarea.focus();
@@ -53,7 +64,7 @@ export default {
     handleEnter(event) {
       if (!event.ctrlKey && !event.shiftKey) {
         event.preventDefault();
-        this.$emit("handleSubmit");
+        this.$emit("handleSubmit", this.comment);
         this.comment = "";
         return;
       }

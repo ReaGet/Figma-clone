@@ -66,7 +66,6 @@ export default {
   },
   computed: {
     comments() {
-      // !this.$store.getters.getCommentsById(this.marker.markerId)
       if (!this.marker) {
         return;
       }
