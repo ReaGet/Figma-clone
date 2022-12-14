@@ -89,14 +89,14 @@ export default {
       this.$emit("closeForm");
     },
     createMarker() {
-      const users = [this.$store.getters.currentId];
+      const users = [this.$store.getters.currentUser.id];
       if (this.sendTo && this.sendTo.id > -1 && !users.includes(this.sendTo)) {
         users.push(this.sendTo.id);
       }
       return {
         title: "#Этаж 1, прихожая",
         created: new Date(),
-        authorId: this.$store.getters.currentId,
+        authorId: this.$store.getters.currentUser.id,
         projectId: this.$store.getters.currentProjectId,
         users: users,
         firstComment: this.comment,

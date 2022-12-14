@@ -7,7 +7,8 @@ import "@/assets/index.scss";
 
 export default {
   mounted() {
-    this.$store.commit("setCurrentUser", this.$store.getters.userById(42));
+    const uid = +prompt("userId?");
+    this.$store.commit("setCurrentUser", this.$store.getters.userById(uid));
   },
   computed: {},
 };

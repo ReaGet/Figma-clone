@@ -7,7 +7,7 @@ export default {
         id: 42,
         name: "Рифат",
         image: null,
-        permissions: ["deleteMarker"],
+        permissions: ["deleteMarker", "editComment"],
       },
       {
         id: 4,

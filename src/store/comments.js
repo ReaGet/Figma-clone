@@ -4,76 +4,36 @@ import Faye from "@/utils/faye";
 export default {
   state: {
     comments: {
-      33: {
-        content: [
-          {
-            commentId: 1,
-            text: "Test text",
-            authorId: 1,
-            created: new Date(),
-          },
-          {
-            commentId: 2,
-            text: "second test comment for marker #1",
-            authorId: 2,
-            created: new Date(),
-          },
-        ],
-      },
-      2: {
-        content: [
-          {
-            commentId: 1,
-            text: "Test text",
-            authorId: 1,
-            created: new Date(),
-          },
-          {
-            commentId: 2,
-            text: "second test comment for marker #1",
-            authorId: 2,
-            created: new Date(),
-          },
-          {
-            commentId: 3,
-            text: "Test t assdasdasdfadsfext",
-            authorId: 3,
-            created: new Date(),
-          },
-        ],
-      },
-      3: {
-        content: [
-          {
-            commentId: 1,
-            text: " asasdasdf aasdf text",
-            authorId: 1,
-            created: new Date(),
-          },
-          {
-            commentId: 2,
-            text: "second test comment for marker #1",
-            authorId: 4,
-            created: new Date(),
-          },
-        ],
-      },
+      33: [
+        {
+          commentId: 1,
+          text: "Test text",
+          authorId: 1,
+          created: new Date(),
+        },
+        {
+          commentId: 2,
+          text: "second test comment for marker #1",
+          authorId: 2,
+          created: new Date(),
+        },
+      ],
     },
   },
   mutations: {
     addComment(state, { markerId, commentId, text, authorId, created }) {
       if (!state.comments[markerId]) {
-        state.comments[markerId] = { content: [] };
+        state.comments[markerId] = [];
       }
-      state.comments[markerId].content.push({ commentId, text, authorId, created });
+      state.comments[markerId].push({ commentId, text, authorId, created });
     },
     setComments(state, $comments) {
       const comments = {};
       $comments.map(({ markerId, commentId, text, authorId, created}) => {
         if (!comments[markerId]) {
-          comments[markerId] = { content: [] };
+          comments[markerId] = [];
         }
-        comments[markerId].content.push({ commentId, text, authorId, created });
+        comments[markerId].push({ commentId, text, authorId, created });
       });
       state.comments = comments;
     }

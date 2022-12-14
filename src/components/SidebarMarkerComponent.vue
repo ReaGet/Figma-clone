@@ -1,8 +1,12 @@
 <template>
-  <div class="sidebar-marker">
+  <div
+    class="sidebar-marker"
+    :class="{ opened: marker.opened }"
+    @click.stop="handleClick"
+  >
     <UserInfo :user="author" />
     <div class="sidebar-marker__info">
-      <div class="sidebar-marker__title">{{ title }}</div>
+      <div class="sidebar-marker__title">{{ this.marker.title }}</div>
       <div class="sidebar-marker__date">{{ date }}</div>
     </div>
     <div class="sidebar-marker__content">{{ marker.firstComment }}</div>
@@ -39,7 +43,7 @@ $border-radius: 6px;
   border-radius: $border-radius;
   cursor: pointer;
   &:hover {
-    opacity: 0.9;
+    background-color: #fafdfd;
   }
   & + & {
     margin-top: 15px;
@@ -117,19 +121,8 @@ export default {
     date() {
       return this.dateFilter(this.marker.created);
     },
-    text() {
-      return this.marker.text;
-    },
-    comments() {
-      return (
-        this.$store.getters.getCommentsById(this.marker.markerId)?.content || []
-      );
-    },
     commentsCount() {
-      return `ответов ${this.comments.length || this.marker.commentsCount}`;
-    },
-    title() {
-      return this.marker.title;
+      return `ответов ${this.marker.commentsCount}`;
     },
     author() {
       return this.$store.getters.users.find(
@@ -140,6 +133,17 @@ export default {
       return this.$store.getters.users.filter((user) =>
         this.marker?.users?.includes(user.id)
       );
+    },
+  },
+  methods: {
+    async handleClick() {
+      if (this.marker.opened) {
+        return;
+      }
+      if (!this.isCreating) {
+        await this.$store.dispatch("loadComments", this.marker.markerId);
+      }
+      this.$emit("markerClick", this.marker);
     },
   },
 };

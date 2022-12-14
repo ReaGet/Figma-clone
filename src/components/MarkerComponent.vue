@@ -1,7 +1,7 @@
 <template>
   <div
     class="marker"
-    :class="{ creating: isCreating, opened: opened }"
+    :class="{ creating: isCreating, opened: marker.opened }"
     :style="position"
     draggable="true"
     @click.stop="handleClick"
@@ -94,8 +94,8 @@ export default {
     UserLogo,
   },
   data: () => ({
-    opened: false,
     dragging: false,
+    opened: false,
   }),
   props: ["marker"],
   mixins: [dateMixin],
@@ -118,20 +118,15 @@ export default {
   },
   methods: {
     async handleClick() {
-      if (this.opened || this.isCreating) {
+      if (this.marker.opened || this.isCreating) {
         return;
       }
       if (!this.isCreating) {
         await this.$store.dispatch("loadComments", this.marker.markerId);
       }
-      this.opened = true;
-      this.$emit("markerClick", {
-        item: this.marker,
-        close: () => (this.opened = false),
-      });
+      this.$emit("markerClick", this.marker);
     },
     startDrag(evt) {
-      console.log(this.dragging);
       this.dragging = true;
       evt.dataTransfer.dropEffect = "move";
       evt.dataTransfer.effectAllowed = "move";

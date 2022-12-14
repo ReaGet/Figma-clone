@@ -70,13 +70,11 @@ export default {
   },
   computed: {
     comments() {
-      if (
-        !this.marker ||
-        !this.$store.getters.getCommentsById(this.marker.markerId)
-      ) {
+      // !this.$store.getters.getCommentsById(this.marker.markerId)
+      if (!this.marker) {
         return;
       }
-      return this.$store.getters.getCommentsById(this.marker.markerId).content;
+      return this.$store.getters.getCommentsById(this.marker.markerId);
     },
     firstComment() {
       return {
@@ -86,6 +84,7 @@ export default {
       };
     },
   },
+  watch: {},
   methods: {
     async submitForm() {
       if (!this.comment.length) {
@@ -109,7 +108,7 @@ export default {
       return {
         text: this.comment,
         created: new Date(),
-        authorId: this.$store.getters.currentId,
+        authorId: this.$store.getters.currentUser.id,
         markerId: this.marker.markerId,
       };
     },

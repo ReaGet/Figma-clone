@@ -66,6 +66,10 @@ export default {
       state.markers = state.markers.filter((marker) => {
         return marker.markerId != markerId;
       });
+    },
+    setMarkerOpen(state, { markerId, value }) {
+      const index = state.markers.findIndex((marker) => marker.markerId === markerId);
+      Object.assign(state.markers[index], { opened: value });
     }
   },
   actions: {
