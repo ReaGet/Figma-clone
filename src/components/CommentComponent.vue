@@ -1,10 +1,16 @@
 <template>
-  <div class="comment">
+  <div class="comment" :class="{ editing: editing }">
     <div class="comment__info">
       <UserInfo :user="user" />
       <div class="comment__date">{{ dateFilter(comment.created) }}</div>
     </div>
-    <div class="comment__content">{{ comment.text }}</div>
+    <div class="comment__content" v-if="!editing">{{ comment.text }}</div>
+    <form class="marker__form-inputs" v-else>
+      <TextareaComponent @handleSubmit="submitForm" :placeholder="'Ответить'" />
+      <button class="marker__form-button">
+        <IconComponent :name="'send'" />
+      </button>
+    </form>
     <IconComponent
       :name="'pencil'"
       :color="'#000'"
@@ -40,6 +46,9 @@
     color: #555555;
     word-break: break-word;
   }
+  .marker__form-inputs {
+    margin-top: 10px;
+  }
   .pencil {
     display: none;
     position: absolute;
@@ -47,7 +56,7 @@
     bottom: 0;
     right: 0;
   }
-  &:hover {
+  &:not(.editing):hover {
     .pencil {
       display: block;
     }
@@ -59,10 +68,15 @@
 import UserInfo from "@/components/UserInfo";
 import dateMixin from "@/mixins/dateMixin";
 import IconComponent from "@/components/ui/IconComponent";
+import TextareaComponent from "@/components/ui/TextareaComponent";
+
 export default {
-  components: { IconComponent, UserInfo },
+  components: { IconComponent, UserInfo, TextareaComponent },
   mixins: [dateMixin],
   props: ["comment"],
+  data: () => ({
+    editing: false,
+  }),
   mounted() {},
   computed: {
     user() {
@@ -73,7 +87,11 @@ export default {
     },
   },
   methods: {
+    submitForm(comment) {
+      console.log(comment);
+    },
     handleEditClick() {
+      this.editing = true;
       console.log(this.comment);
     },
     can(perm) {

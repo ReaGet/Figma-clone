@@ -1,48 +1,45 @@
 <template>
-  <form
-    @submit.prevent="submitForm"
-    class="marker__form"
-    ref="markerFormEl"
+  <div
+    class="marker__form-wrapper"
+    ref="markerWrapperEl"
     @keydown.esc="this.$emit('closeForm')"
   >
-    <div class="marker__form-wrapper">
-      <div class="marker__form-top">
-        <span class="marker__form-title">Ваш комментарий</span>
-        <div class="marker__form-controls">
-          <div
-            class="marker__form-accept"
-            @click.stop="removeMarker"
-            v-if="can('deleteMarker')"
-          >
-            &check;
-          </div>
-          <div class="marker__form-close" @click.stop="this.$emit('closeForm')">
-            &#10006;
-          </div>
+    <div class="marker__form-top">
+      <span class="marker__form-title">Ваш комментарий</span>
+      <div class="marker__form-controls">
+        <div
+          class="marker__form-accept"
+          @click.stop="removeMarker"
+          v-if="can('deleteMarker')"
+        >
+          &check;
         </div>
-      </div>
-      <div class="marker__form-middle">
-        <div ref="commentsEl" class="marker__form-comments">
-          <CommentComponent :comment="firstComment" />
-          <CommentComponent
-            v-for="comment in comments"
-            :key="comment.commentId"
-            :comment="comment"
-          />
-        </div>
-        <div class="marker__form-inputs">
-          <TextareaComponent
-            @handleSubmit="submitForm"
-            @textareaInput="(c) => (comment = c)"
-            :placeholder="'Ответить'"
-          />
-          <button class="marker__form-button">
-            <IconComponent :name="'send'" />
-          </button>
+        <div class="marker__form-close" @click.stop="this.$emit('closeForm')">
+          &#10006;
         </div>
       </div>
     </div>
-  </form>
+    <div class="marker__form-middle">
+      <div ref="commentsEl" class="marker__form-comments">
+        <CommentComponent :comment="firstComment" />
+        <CommentComponent
+          v-for="comment in comments"
+          :key="comment.commentId"
+          :comment="comment"
+        />
+      </div>
+      <form class="marker__form-inputs" @submit.prevent="submitForm">
+        <TextareaComponent
+          @handleSubmit="submitForm"
+          @textareaInput="(c) => (comment = c)"
+          :placeholder="'Ответить'"
+        />
+        <button class="marker__form-button">
+          <IconComponent :name="'send'" />
+        </button>
+      </form>
+    </div>
+  </div>
 </template>
 
 <script>
@@ -120,14 +117,14 @@ export default {
         this.contentEl.offsetHeight + this.offset.y * 2 - 100
       }px`;
       let { x, y } = this.calculateFormOffset(this.marker.position);
-      this.$refs.markerFormEl.style.top = `${y}px`;
-      this.$refs.markerFormEl.style.left = `${x}px`;
+      this.$refs.markerWrapperEl.style.top = `${y}px`;
+      this.$refs.markerWrapperEl.style.left = `${x}px`;
     },
     calculateFormOffset({ x, y }) {
       let newX = x + this.offset.x,
         newY = y + this.offset.y,
-        formWidth = this.$refs.markerFormEl.offsetWidth,
-        formHeight = this.$refs.markerFormEl.offsetHeight,
+        formWidth = this.$refs.markerWrapperEl.offsetWidth,
+        formHeight = this.$refs.markerWrapperEl.offsetHeight,
         contentComputedStyles = getComputedStyle(this.contentEl),
         contentWidth =
           this.contentEl.offsetWidth -

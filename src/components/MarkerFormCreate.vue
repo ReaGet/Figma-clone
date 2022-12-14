@@ -1,20 +1,18 @@
 <template>
-  <form
-    @submit.prevent="submitForm"
-    class="marker__form"
-    ref="markerFormEl"
+  <div
+    class="marker__form-wrapper"
+    ref="markerWrapperEl"
     @keydown.esc="this.$emit('closeForm')"
-    @click.stop
   >
-    <div class="marker__form-wrapper">
-      <div class="marker__form-top">
-        <span class="marker__form-title">Ваш комментарий</span>
-        <div class="marker__form-controls">
-          <div class="marker__form-close" @click.stop="this.$emit('closeForm')">
-            &#10006;
-          </div>
+    <div class="marker__form-top">
+      <span class="marker__form-title">Ваш комментарий</span>
+      <div class="marker__form-controls">
+        <div class="marker__form-close" @click.stop="this.$emit('closeForm')">
+          &#10006;
         </div>
       </div>
+    </div>
+    <form @submit.prevent="submitForm">
       <div class="marker__form-middle">
         <div class="marker__form-inputs">
           <TextareaComponent
@@ -37,8 +35,8 @@
           <IconComponent :name="'send'" />
         </button>
       </div>
-    </div>
-  </form>
+    </form>
+  </div>
 </template>
 
 <script>
@@ -59,8 +57,8 @@ export default {
     sendTo: null,
   }),
   mounted() {
-    this.$refs.markerFormEl.style.top = `${this.position.y - 20}px`;
-    this.$refs.markerFormEl.style.left = `${this.position.x + 50}px`;
+    this.$refs.markerWrapperEl.style.top = `${this.position.y - 20}px`;
+    this.$refs.markerWrapperEl.style.left = `${this.position.x + 50}px`;
     console.log(this.position);
   },
   computed: {

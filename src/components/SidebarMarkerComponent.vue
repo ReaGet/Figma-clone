@@ -65,6 +65,7 @@ $border-radius: 6px;
     font-size: 12px;
     color: rgba(0, 0, 0, 0.9);
     line-height: 1.2em;
+    word-break: break-word;
   }
   &__footer {
     background-color: #f5f5f5;

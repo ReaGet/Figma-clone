@@ -1,16 +1,16 @@
 .marker {
   &__form {
-    position: fixed;
-    width: 280px;
-    box-shadow: 0 0 10px rgb(0 0 0 / 10%);
-    border-radius: 6px;
-    z-index: 40;
-    background-color: #e9e9e9;
     &-wrapper {
       display: flex;
       flex-direction: column;
       padding: 10px;
       cursor: default;
+      position: fixed;
+      width: 280px;
+      box-shadow: 0 0 10px rgb(0 0 0 / 10%);
+      border-radius: 6px;
+      z-index: 40;
+      background-color: #e9e9e9;
     }
     &-top {
       display: flex;
