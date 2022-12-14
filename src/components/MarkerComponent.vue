@@ -115,6 +115,9 @@ export default {
     date() {
       return this.dateFilter(this.marker.created);
     },
+    firstComment() {
+      return this.marker.firstComment;
+    },
   },
   methods: {
     async handleClick() {

@@ -67,13 +67,17 @@ export default {
         return marker.markerId != markerId;
       });
     },
-    setMarkerOpen(state, { markerId, value }) {
-      const index = state.markers.findIndex((marker) => marker.markerId === markerId);
-      Object.assign(state.markers[index], { opened: value });
+    updateMarker(state, { name, data }) {
+      const index = state.markers.findIndex((marker) => marker.markerId === data.markerId);
+      Object.assign(state.markers[index], { [name]: data.value });
     },
-    updateMarker(state, { markerId, value }) {
+    updateMarkerFirstComment(state, { markerId, comment }) {
       const index = state.markers.findIndex((marker) => marker.markerId === markerId);
-      Object.assign(state.markers[index], { commentsCount: value });
+      Object.assign(state.markers[index], { "firstComment": comment });
+    },
+    updateMarkerCommentsCount(state, { markerId, value }) {
+      const index = state.markers.findIndex((marker) => marker.markerId === markerId);
+      Object.assign(state.markers[index], { "commentsCount": value });
     },
   },
   actions: {

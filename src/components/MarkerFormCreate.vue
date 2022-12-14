@@ -84,6 +84,10 @@ export default {
       if (!marker) {
         return;
       }
+      await this.$store.dispatch(
+        "addCommentRequest",
+        this.createComment(marker)
+      );
       this.$emit("closeForm");
     },
     createMarker() {
@@ -99,6 +103,14 @@ export default {
         users: users,
         // firstComment: this.comment,
         position: this.position,
+      };
+    },
+    createComment(marker) {
+      return {
+        text: this.comment,
+        created: new Date(),
+        authorId: this.$store.getters.currentUser.id,
+        markerId: marker.markerId,
       };
     },
   },

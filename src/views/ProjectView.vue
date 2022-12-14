@@ -137,6 +137,14 @@ export default {
   async mounted() {
     Faye.subscribe("/comment/add", (comment) => {
       this.$store.commit("addComment", comment);
+      this.$store.commit("updateMarkerCommentsCount", {
+        markerId: comment.markerId,
+        value: this.$store.getters.getCommentsById(comment.markerId).length,
+      });
+      this.$store.commit("updateMarkerFirstComment", {
+        markerId: comment.markerId,
+        comment: comment.text,
+      });
     });
     Faye.subscribe("/marker/add", (marker) => {
       this.$store.commit("addMarker", marker);
@@ -168,9 +176,12 @@ export default {
       setTimeout(async () => {
         this.activeMarker = marker;
         this.isCreating = false;
-        this.$store.commit("setMarkerOpen", {
-          markerId: marker.markerId,
-          value: true,
+        this.$store.commit("updateMarker", {
+          name: "opened",
+          data: {
+            markerId: marker.markerId,
+            value: true,
+          },
         });
       }, 0);
     },
@@ -185,9 +196,12 @@ export default {
       this.isCreating = false;
     },
     closeCommentMarkerForm() {
-      this.$store.commit("setMarkerOpen", {
-        markerId: this.activeMarker.markerId,
-        value: false,
+      this.$store.commit("updateMarker", {
+        name: "opened",
+        data: {
+          markerId: this.activeMarker.markerId,
+          value: false,
+        },
       });
       this.activeMarker = null;
     },

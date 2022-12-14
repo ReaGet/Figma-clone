@@ -96,8 +96,11 @@ export default {
       setTimeout(() => {
         this.setFormProperties();
         this.$store.commit("updateMarker", {
-          markerId: this.marker.markerId,
-          value: this.comments.length,
+          name: "commentsCount",
+          data: {
+            markerId: this.marker.markerId,
+            value: this.comments.length,
+          },
         });
       }, 100);
 
