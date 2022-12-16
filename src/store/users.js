@@ -27,7 +27,7 @@ export default {
         name: "Rishat",
         image: null,
         role: 2,
-        permissions: ["editComment"],
+        permissions: [],
       },
       {
         id: 3,
