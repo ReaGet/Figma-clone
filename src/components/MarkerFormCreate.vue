@@ -3,6 +3,7 @@
     class="marker__form-wrapper"
     ref="markerWrapperEl"
     @keydown.esc="this.$emit('closeForm')"
+    @click.stop
   >
     <div class="marker__form-top">
       <span class="marker__form-title">Ваш комментарий</span>
@@ -17,6 +18,7 @@
         <div class="marker__form-inputs">
           <TextareaComponent
             @handleSubmit="submitForm"
+            @textareaInput="(c) => (comment = c)"
             :placeholder="'Ответить'"
           />
         </div>
@@ -53,6 +55,7 @@ export default {
   props: ["position"],
   data: () => ({
     sendTo: null,
+    comment: "",
   }),
   mounted() {
     this.$refs.markerWrapperEl.style.top = `${this.position.y - 20}px`;
@@ -70,9 +73,9 @@ export default {
     },
   },
   methods: {
-    async submitForm(comment) {
-      console.log(comment);
-      if (!comment.length) {
+    async submitForm() {
+      console.log(this.comment);
+      if (!this.comment.length) {
         return;
       }
       const marker = await this.$store.dispatch(
@@ -84,8 +87,9 @@ export default {
       }
       await this.$store.dispatch(
         "addCommentRequest",
-        this.createComment(marker, comment)
+        this.createComment(marker, this.comment)
       );
+      this.comment = "";
       this.$emit("closeForm");
     },
     createMarker() {

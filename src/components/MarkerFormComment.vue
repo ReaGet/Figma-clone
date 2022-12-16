@@ -79,7 +79,6 @@ export default {
       };
     },
   },
-  watch: {},
   methods: {
     async submitForm() {
       if (!this.comment.length) {

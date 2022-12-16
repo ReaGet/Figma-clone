@@ -146,6 +146,16 @@ export default {
         comment: comment.text,
       });
     });
+    Faye.subscribe("/comment/update", (comment) => {
+      this.$store.commit("updateComment", comment);
+    });
+    Faye.subscribe("/comment/remove", (comment) => {
+      this.$store.commit("removeComment", comment);
+      this.$store.commit("updateMarkerCommentsCount", {
+        markerId: comment.markerId,
+        value: this.$store.getters.getCommentsById(comment.markerId).length,
+      });
+    });
     Faye.subscribe("/marker/add", (marker) => {
       this.$store.commit("addMarker", marker);
     });

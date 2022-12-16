@@ -118,7 +118,7 @@ export default {
       }
     },
     async removeMarker({ commit }, markerId) {
-      await fetch(`http://figma.clone/markers/delete/?markerId=${markerId}`, {
+      await fetch(`http://figma.clone/markers/remove/?markerId=${markerId}`, {
         method: 'GET',
         mode: 'cors',
       })

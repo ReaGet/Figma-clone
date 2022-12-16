@@ -14,7 +14,7 @@
           <div class="marker__author">{{ this.user.name }}</div>
           <div class="marker__date">{{ date }}</div>
         </div>
-        <div class="marker__comment">{{ marker.firstComment }}</div>
+        <div class="marker__comment">{{ firstComment }}</div>
       </div>
     </div>
   </div>
@@ -88,6 +88,7 @@ $transition-speed: 0.1s;
 <script>
 import UserLogo from "@/components/UserLogo.vue";
 import dateMixin from "@/mixins/dateMixin";
+import textMixin from "@/mixins/textMixin";
 
 export default {
   components: {
@@ -98,7 +99,7 @@ export default {
     opened: false,
   }),
   props: ["marker"],
-  mixins: [dateMixin],
+  mixins: [dateMixin, textMixin],
   computed: {
     user() {
       return this.$store.getters.users.find(
@@ -116,7 +117,7 @@ export default {
       return this.dateFilter(this.marker.created);
     },
     firstComment() {
-      return this.marker.firstComment;
+      return this.substring(this.marker.firstComment, 38);
     },
   },
   methods: {

@@ -9,7 +9,7 @@
       <div class="sidebar-marker__title">{{ this.marker.title }}</div>
       <div class="sidebar-marker__date">{{ date }}</div>
     </div>
-    <div class="sidebar-marker__content">{{ marker.firstComment }}</div>
+    <div class="sidebar-marker__content">{{ firstComment }}</div>
     <div class="sidebar-marker__footer">
       <div class="sidebar-marker__footer-users" v-if="users.length > 1">
         <UserLogo v-for="user in users" :key="user.id" :user="user" />
@@ -113,10 +113,11 @@ $border-radius: 6px;
 import UserInfo from "@/components/UserInfo";
 import UserLogo from "@/components/UserLogo.vue";
 import dateMixin from "@/mixins/dateMixin";
+import textMixin from "@/mixins/textMixin";
 export default {
   components: { UserInfo, UserLogo },
   props: ["marker"],
-  mixins: [dateMixin],
+  mixins: [dateMixin, textMixin],
   mounted() {},
   computed: {
     date() {
@@ -134,6 +135,9 @@ export default {
       return this.$store.getters.users.filter((user) =>
         this.marker?.users?.includes(user.id)
       );
+    },
+    firstComment() {
+      return this.substring(this.marker.firstComment, 91);
     },
   },
   methods: {

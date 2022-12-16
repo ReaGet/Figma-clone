@@ -7,7 +7,13 @@ export default {
         id: 42,
         name: "Рифат",
         image: null,
-        permissions: ["deleteMarker", "editComment"],
+        permissions: [
+          "addMarker",
+          "deleteMarker",
+          "addComment",
+          "editComment",
+          "removeComment",
+        ],
       },
       {
         id: 4,
@@ -21,7 +27,7 @@ export default {
         name: "Rishat",
         image: null,
         role: 2,
-        permissions: [],
+        permissions: ["editComment"],
       },
       {
         id: 3,
