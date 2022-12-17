@@ -17,7 +17,12 @@
             />
           </svg>
         </div>
-        <input type="text" class="filter__input" placeholder="Поиск" />
+        <input
+          v-model="input"
+          type="text"
+          class="filter__input"
+          placeholder="Поиск"
+        />
       </label>
       <div class="filter__btn">
         <svg
@@ -80,3 +85,11 @@ $border-radius: 6px;
   }
 }
 </style>
+
+<script>
+export default {
+  data: () => ({
+    input: "",
+  }),
+};
+</script>

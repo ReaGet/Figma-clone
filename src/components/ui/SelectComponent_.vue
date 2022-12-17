@@ -81,7 +81,7 @@
 </style>
 
 <script>
-import UserInfo from "@/components/UserInfo.vue";
+import UserInfo from "@/components/user/UserInfo.vue";
 
 export default {
   components: { UserInfo },

@@ -53,7 +53,9 @@
       />
     </div>
   </div>
-  <SidebarEl :isOpen="isUsersSidebarOpen" :left="true"></SidebarEl>
+  <SidebarEl :isOpen="isUsersSidebarOpen" :left="true">
+
+  </SidebarEl>
   <SidebarEl
     :isOpen="isMarkersSidebarOpen"
     :class="{ hasActiveMarker: activeMarker }"
@@ -109,11 +111,11 @@
 
 <script>
 import SidebarEl from "@/components/app/SidebarEl";
-import SidebarMarkerComponent from "@/components/SidebarMarkerComponent";
+import SidebarMarkerComponent from "@/components/marker/SidebarMarkerComponent.vue";
 import FilterComponent from "@/components/FilterComponent";
-import MarkerComponent from "@/components/MarkerComponent.vue";
-import MarkerFormCreate from "@/components/MarkerFormCreate";
-import MarkerFormComment from "@/components/MarkerFormComment";
+import MarkerComponent from "@/components/marker/MarkerComponent.vue";
+import MarkerFormCreate from "@/components/marker/MarkerFormCreate.vue";
+import MarkerFormComment from "@/components/marker/MarkerFormComment.vue";
 import dateFilter from "@/mixins/dateMixin";
 import Faye from "@/utils/faye";
 

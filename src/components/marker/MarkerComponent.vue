@@ -86,7 +86,7 @@ $transition-speed: 0.1s;
 </style>
 
 <script>
-import UserLogo from "@/components/UserLogo.vue";
+import UserLogo from "@/components/user/UserLogo.vue";
 import dateMixin from "@/mixins/dateMixin";
 import textMixin from "@/mixins/textMixin";
 

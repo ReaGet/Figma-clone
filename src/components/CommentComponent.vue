@@ -86,7 +86,7 @@
 </style>
 
 <script>
-import UserInfo from "@/components/UserInfo";
+import UserInfo from "@/components/user/UserInfo.vue";
 import dateMixin from "@/mixins/dateMixin";
 import IconComponent from "@/components/ui/IconComponent";
 import TextareaComponent from "@/components/ui/TextareaComponent";
