@@ -11,7 +11,7 @@
       <UserLogo :user="user" v-if="!isCreating" />
       <div class="marker__content" v-if="!isCreating">
         <div class="marker__info">
-          <div class="marker__author">{{ this.user.name }}</div>
+          <div class="marker__author">{{ this.user?.name }}</div>
           <div class="marker__date">{{ date }}</div>
         </div>
         <div class="marker__comment">{{ firstComment }}</div>
@@ -114,10 +114,10 @@ export default {
       return this.marker.isCreating || false;
     },
     date() {
-      return this.dateFilter(this.marker.created);
+      return this.dateFilter(this.marker?.created);
     },
     firstComment() {
-      return this.substring(this.marker.firstComment, 38);
+      return this.substring(this.marker?.firstComment || "", 38);
     },
   },
   methods: {

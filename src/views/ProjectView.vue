@@ -23,7 +23,6 @@
     class="content"
     :class="{
       paddingRight: isMarkersSidebarOpen,
-      paddingLeft: isUsersSidebarOpen,
       hasActiveMarker: activeMarker,
     }"
     @click="handleContentClick"
@@ -32,7 +31,7 @@
     <div class="markers">
       <MarkerComponent
         :marker="{ position: clickPosition, isCreating }"
-        v-if="isCreating"
+        v-show="isCreating"
       />
       <MarkerComponent
         v-for="marker in markers"
@@ -54,7 +53,7 @@
     </div>
   </div>
   <SidebarEl :isOpen="isUsersSidebarOpen" :left="true">
-
+    <UsersComponent />
   </SidebarEl>
   <SidebarEl
     :isOpen="isMarkersSidebarOpen"
@@ -118,9 +117,11 @@ import MarkerFormCreate from "@/components/marker/MarkerFormCreate.vue";
 import MarkerFormComment from "@/components/marker/MarkerFormComment.vue";
 import dateFilter from "@/mixins/dateMixin";
 import Faye from "@/utils/faye";
+import UsersComponent from "@/components/UsersComponent";
 
 export default {
   components: {
+    UsersComponent,
     SidebarEl,
     SidebarMarkerComponent,
     FilterComponent,
@@ -130,8 +131,8 @@ export default {
   },
   mixins: [dateFilter],
   data: () => ({
-    isUsersSidebarOpen: false,
-    isMarkersSidebarOpen: true,
+    isUsersSidebarOpen: true,
+    isMarkersSidebarOpen: false,
     activeMarker: null,
     clickPosition: {},
     isCreating: false,
