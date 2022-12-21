@@ -60,7 +60,7 @@ export default {
     },
     contentEl: document.querySelector(".content"),
   }),
-  props: ["marker"],
+  props: ["marker", "contentOffset"],
   mounted() {
     this.setFormProperties();
   },
@@ -128,8 +128,8 @@ export default {
       this.$refs.markerWrapperEl.style.left = `${x}px`;
     },
     calculateFormOffset({ x, y }) {
-      let newX = x + this.offset.x,
-        newY = y + this.offset.y,
+      let newX = x + this.offset.x + this.contentOffset.left,
+        newY = y + this.offset.y + this.contentOffset.top,
         formWidth = this.$refs.markerWrapperEl.offsetWidth,
         formHeight = this.$refs.markerWrapperEl.offsetHeight,
         contentComputedStyles = getComputedStyle(this.contentEl),

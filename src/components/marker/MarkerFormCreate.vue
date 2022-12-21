@@ -52,14 +52,18 @@ export default {
     TextareaComponent,
     IconComponent,
   },
-  props: ["position"],
+  props: ["position", "contentOffset"],
   data: () => ({
     sendTo: null,
     comment: "",
   }),
   mounted() {
-    this.$refs.markerWrapperEl.style.top = `${this.position.y - 20}px`;
-    this.$refs.markerWrapperEl.style.left = `${this.position.x + 50}px`;
+    this.$refs.markerWrapperEl.style.top = `${
+      this.position.y - 20 + this.contentOffset.top
+    }px`;
+    this.$refs.markerWrapperEl.style.left = `${
+      this.position.x + 50 + this.contentOffset.left
+    }px`;
   },
   computed: {
     users() {

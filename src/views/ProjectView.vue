@@ -25,29 +25,34 @@
       paddingRight: isMarkersSidebarOpen,
       hasActiveMarker: activeMarker,
     }"
+    ref="contentEl"
     @click="handleContentClick"
   >
     <div>canvas</div>
     <div class="markers">
       <MarkerComponent
         :marker="{ position: clickPosition, isCreating }"
+        :contentOffset="contentOffset"
         v-show="isCreating"
       />
       <MarkerComponent
         v-for="marker in markers"
         :key="marker.markerId"
         :marker="marker"
+        :contentOffset="contentOffset"
         @markerClick="handleMarkerClick"
       />
 
       <MarkerFormCreate
         :position="clickPosition"
         v-if="isCreating"
+        :contentOffset="contentOffset"
         @closeForm="closeCreateMarkerForm"
       />
       <MarkerFormComment
         v-if="activeMarker"
         :marker="activeMarker"
+        :contentOffset="contentOffset"
         @closeForm="closeCommentMarkerForm"
       />
     </div>
@@ -122,6 +127,7 @@ export default {
     activeMarker: null,
     clickPosition: {},
     isCreating: false,
+    contentOffset: { top: 0, left: 0 },
   }),
   async mounted() {
     Faye.subscribe("/comment/add", (comment) => {
@@ -151,6 +157,7 @@ export default {
     Faye.subscribe("/marker/remove", (markerId) => {
       this.$store.commit("removeMarker", markerId);
     });
+    this.contentOffset = this.getContentOffset();
     this.$store.commit("setCurrentProjectId", this.projectId);
     await this.$store.dispatch("getMarkers");
   },
@@ -213,10 +220,16 @@ export default {
       });
       this.activeMarker = null;
     },
+    getContentOffset() {
+      return (
+        this.$refs.contentEl?.getBoundingClientRect() || { top: 0, left: 0 }
+      );
+    },
     getPosition(event) {
+      const rect = this.getContentOffset();
       return {
-        x: event.pageX - 12,
-        y: event.pageY - 12,
+        x: event.pageX - 12 - rect.left,
+        y: event.pageY - 12 - rect.top,
       };
     },
   },

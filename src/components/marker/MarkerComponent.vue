@@ -4,6 +4,7 @@
     :class="{ creating: isCreating, opened: marker.opened, unread: isUnread }"
     :style="position"
     draggable="true"
+    ref="markerEl"
     @click.stop="handleClick"
     @dragstart.stop="startDrag($event)"
   >
@@ -111,7 +112,7 @@ export default {
     dragging: false,
     opened: false,
   }),
-  props: ["marker"],
+  props: ["marker", "contentOffset"],
   mixins: [dateMixin, textMixin],
   computed: {
     user() {
@@ -121,6 +122,9 @@ export default {
     },
     position() {
       const { x, y } = this.marker.position;
+      // return `top: ${y + this.contentOffset.top}px; left: ${
+      //   x + this.contentOffset.left
+      // }px;`;
       return `top: ${y}px; left: ${x}px;`;
     },
     isCreating() {
