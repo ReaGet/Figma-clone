@@ -1,7 +1,7 @@
 <template>
   <div
     class="marker"
-    :class="{ creating: isCreating, opened: marker.opened }"
+    :class="{ creating: isCreating, opened: marker.opened, unread: isUnread }"
     :style="position"
     draggable="true"
     @click.stop="handleClick"
@@ -82,6 +82,19 @@ $transition-speed: 0.1s;
     overflow: hidden;
     transition: max-height $transition-speed ease-in-out;
   }
+  &.unread {
+    .marker__inner {
+      background-color: #3093e1;
+      border-color: #3093e1;
+      color: #fff;
+      .marker__author {
+        color: #fff;
+      }
+      .marker__date {
+        color: #eee;
+      }
+    }
+  }
 }
 </style>
 
@@ -118,6 +131,9 @@ export default {
     },
     firstComment() {
       return this.substring(this.marker?.firstComment || "", 38);
+    },
+    isUnread() {
+      return true;
     },
   },
   methods: {

@@ -131,7 +131,7 @@ export default {
   },
   mixins: [dateFilter],
   data: () => ({
-    isUsersSidebarOpen: true,
+    isUsersSidebarOpen: false,
     isMarkersSidebarOpen: false,
     activeMarker: null,
     clickPosition: {},
