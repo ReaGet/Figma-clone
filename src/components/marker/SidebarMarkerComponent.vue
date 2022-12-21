@@ -10,11 +10,20 @@
       <div class="sidebar-marker__date">{{ date }}</div>
     </div>
     <div class="sidebar-marker__content">{{ firstComment }}</div>
-    <div class="sidebar-marker__footer">
+    <div
+      class="sidebar-marker__footer"
+      v-if="users.length > 1 || marker.commentsCount > 1"
+      @click.stop="showComments"
+    >
       <div class="sidebar-marker__footer-users" v-if="users.length > 1">
         <UserLogo v-for="user in users" :key="user.id" :user="user" />
       </div>
-      <div class="sidebar-marker__footer-comments">{{ commentsCount }}</div>
+      <div
+        class="sidebar-marker__footer-comments"
+        v-if="marker.commentsCount > 1"
+      >
+        {{ commentsCount }}
+      </div>
       <i class="sidebar-marker__footer-icon">
         <svg
           width="24px"
@@ -136,8 +145,18 @@ export default {
         this.marker?.users?.includes(user.id)
       );
     },
+    comments() {
+      return (
+        this.$store.getters.getCommentsById(this.marker.markerId) ||
+        this.firstComment
+      );
+    },
     firstComment() {
-      return this.substring(this.marker.firstComment, 91);
+      return (
+        (this.marker.firstComment &&
+          this.substring(this.marker.firstComment, 91)) ||
+        ""
+      );
     },
   },
   methods: {
@@ -149,6 +168,12 @@ export default {
         await this.$store.dispatch("loadComments", this.marker.markerId);
       }
       this.$emit("markerClick", this.marker);
+    },
+    async showComments() {
+      if (!this.isCreating) {
+        await this.$store.dispatch("loadComments", this.marker.markerId);
+      }
+      console.log("Show comments");
     },
   },
 };

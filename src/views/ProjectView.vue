@@ -52,23 +52,13 @@
       />
     </div>
   </div>
-  <SidebarEl :isOpen="isUsersSidebarOpen" :left="true">
-    <UsersComponent />
-  </SidebarEl>
+  <SidebarEl :isOpen="isUsersSidebarOpen" :left="true"></SidebarEl>
   <SidebarEl
     :isOpen="isMarkersSidebarOpen"
     :class="{ hasActiveMarker: activeMarker }"
     :right="true"
   >
-    <FilterComponent />
-    <div class="markers__wrapper">
-      <SidebarMarkerComponent
-        v-for="marker in markers.slice().reverse()"
-        :key="marker.markerId"
-        :marker="marker"
-        @markerClick="handleMarkerClick"
-      />
-    </div>
+    <SidebarMarkers :markers="markers" @markerClick="handleMarkerClick" />
   </SidebarEl>
 </template>
 
@@ -110,29 +100,25 @@
 
 <script>
 import SidebarEl from "@/components/app/SidebarEl";
-import SidebarMarkerComponent from "@/components/marker/SidebarMarkerComponent.vue";
-import FilterComponent from "@/components/FilterComponent";
 import MarkerComponent from "@/components/marker/MarkerComponent.vue";
 import MarkerFormCreate from "@/components/marker/MarkerFormCreate.vue";
 import MarkerFormComment from "@/components/marker/MarkerFormComment.vue";
 import dateFilter from "@/mixins/dateMixin";
 import Faye from "@/utils/faye";
-import UsersComponent from "@/components/UsersComponent";
+import SidebarMarkers from "@/components/SidebarMarkers";
 
 export default {
   components: {
-    UsersComponent,
+    SidebarMarkers,
     SidebarEl,
-    SidebarMarkerComponent,
-    FilterComponent,
     MarkerFormCreate,
     MarkerComponent,
     MarkerFormComment,
   },
   mixins: [dateFilter],
   data: () => ({
-    isUsersSidebarOpen: true,
-    isMarkersSidebarOpen: false,
+    isUsersSidebarOpen: false,
+    isMarkersSidebarOpen: true,
     activeMarker: null,
     clickPosition: {},
     isCreating: false,
@@ -176,9 +162,18 @@ export default {
       return +this.$route.params.id;
     },
     markers() {
-      return this.$store.getters.markers.filter((marker) => {
-        return marker.projectId === this.projectId;
-      });
+      return this.$store.getters.markers;
+      // return this.$store.getters.markers.filter((marker) => {
+      //   return marker.projectId === this.projectId;
+      //   // const check = marker.projectId === this.projectId;
+      //   // if (!this.filterText) {
+      //   //   return check;
+      //   // }
+      //   // if (check) {
+      //   //   const user = this.$store.getters.userById(marker.authorId);
+      //   //   return user.name.toLowerCase().includes(this.filterText);
+      //   // }
+      // });
     },
   },
   methods: {
