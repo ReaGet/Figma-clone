@@ -6,7 +6,7 @@
       </li>
     </ul>
     <div class="tabs__details">
-      <div v-for="(tab, index) in tabsToDisplay" :key="index">{{ tab }}</div>
+      <slot></slot>
     </div>
   </div>
 </template>

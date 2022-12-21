@@ -133,7 +133,7 @@ export default {
       return this.substring(this.marker?.firstComment || "", 38);
     },
     isUnread() {
-      return true;
+      return false;
     },
   },
   methods: {

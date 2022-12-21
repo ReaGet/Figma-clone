@@ -9,13 +9,40 @@
       <div class="sidebar-marker__title">{{ this.marker.title }}</div>
       <div class="sidebar-marker__date">{{ date }}</div>
     </div>
-    <div class="sidebar-marker__content">{{ firstComment }}</div>
-    <div class="sidebar-marker__footer">
+    <div class="sidebar-marker__content">
+      <div class="sidebar-marker__first">{{ firstComment }}</div>
+      <div class="sidebar-marker__comments" v-if="expanded">
+        <CommentComponent
+          v-for="comment in comments.slice(0, count)"
+          :key="comment.commentId"
+          :comment="comment"
+          :controls="false"
+        />
+        <div
+          class="sidebar-marker__comments-more"
+          @click.stop="showMore"
+          v-if="count < comments.length"
+        >
+          Показать еще
+        </div>
+      </div>
+    </div>
+    <div
+      class="sidebar-marker__footer"
+      v-if="users.length > 1 || marker.commentsCount > 1"
+      @click.stop="toggleComments"
+    >
       <div class="sidebar-marker__footer-users" v-if="users.length > 1">
         <UserLogo v-for="user in users" :key="user.id" :user="user" />
       </div>
-      <div class="sidebar-marker__footer-comments">{{ commentsCount }}</div>
-      <i class="sidebar-marker__footer-icon">
+      <div
+        class="sidebar-marker__footer-comments"
+        v-if="marker.commentsCount > 1 && !expanded"
+      >
+        {{ commentsCount }}
+      </div>
+      <div class="sidebar-marker__footer-comments" v-else>Скрыть</div>
+      <i class="sidebar-marker__footer-icon" :class="{ expanded: expanded }">
         <svg
           width="24px"
           height="24px"
@@ -48,9 +75,6 @@ $border-radius: 6px;
   & + & {
     margin-top: 15px;
   }
-  //.user__title {
-  //  font-size: 0.9rem;
-  //}
   &__info {
     display: flex;
     align-items: center;
@@ -61,11 +85,26 @@ $border-radius: 6px;
     font-size: 0.7rem;
   }
   &__content {
+    .comment {
+      .comment__content {
+        font-size: 12px;
+      }
+    }
+  }
+  &__first {
     text-align: left;
     font-size: 12px;
     color: rgba(0, 0, 0, 0.9);
     line-height: 1.2em;
     word-break: break-word;
+  }
+  &__comments {
+    margin-top: 20px;
+    &-more {
+      font-size: 14px;
+      margin-top: 10px;
+      color: #888;
+    }
   }
   &__footer {
     background-color: #f5f5f5;
@@ -104,6 +143,9 @@ $border-radius: 6px;
     &-icon {
       display: flex;
       margin-left: auto;
+      &.expanded {
+        transform: rotateZ(180deg);
+      }
     }
   }
 }
@@ -114,11 +156,19 @@ import UserInfo from "@/components/user/UserInfo.vue";
 import UserLogo from "@/components/user/UserLogo.vue";
 import dateMixin from "@/mixins/dateMixin";
 import textMixin from "@/mixins/textMixin";
+import CommentComponent from "@/components/CommentComponent.vue";
 export default {
-  components: { UserInfo, UserLogo },
+  components: { CommentComponent, UserInfo, UserLogo },
   props: ["marker"],
   mixins: [dateMixin, textMixin],
-  mounted() {},
+  data: () => ({
+    expanded: false,
+    count: 0,
+    step: 5,
+  }),
+  mounted() {
+    this.count = this.step;
+  },
   computed: {
     date() {
       return this.dateFilter(this.marker.created);
@@ -136,8 +186,18 @@ export default {
         this.marker?.users?.includes(user.id)
       );
     },
+    comments() {
+      return (
+        this.$store.getters.getCommentsById(this.marker.markerId)?.slice(1) ||
+        []
+      );
+    },
     firstComment() {
-      return this.substring(this.marker.firstComment, 91);
+      return (
+        (this.marker.firstComment &&
+          this.substring(this.marker.firstComment, 91)) ||
+        ""
+      );
     },
   },
   methods: {
@@ -149,6 +209,18 @@ export default {
         await this.$store.dispatch("loadComments", this.marker.markerId);
       }
       this.$emit("markerClick", this.marker);
+    },
+    async toggleComments() {
+      if (!this.isCreating && !this.expanded) {
+        await this.$store.dispatch("loadComments", this.marker.markerId);
+      }
+      this.expanded = !this.expanded;
+      if (!this.expanded) {
+        this.count = this.step;
+      }
+    },
+    showMore() {
+      this.count += this.step;
     },
   },
 };

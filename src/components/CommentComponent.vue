@@ -16,7 +16,7 @@
         <IconComponent :name="'send'" />
       </button>
     </form>
-    <div class="marker__form-actions">
+    <div class="marker__form-actions" v-if="controls">
       <IconComponent
         :name="'remove'"
         :color="'#000'"
@@ -94,7 +94,16 @@ import TextareaComponent from "@/components/ui/TextareaComponent";
 export default {
   components: { IconComponent, UserInfo, TextareaComponent },
   mixins: [dateMixin],
-  props: ["comment"],
+  props: {
+    comment: {
+      type: Object,
+      required: true,
+    },
+    controls: {
+      type: Boolean,
+      default: true,
+    },
+  },
   data() {
     return {
       editing: false,

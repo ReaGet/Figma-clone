@@ -18,10 +18,11 @@
           </svg>
         </div>
         <input
-          v-model="input"
+          v-model="text"
           type="text"
           class="filter__input"
           placeholder="Поиск"
+          @input="handleInput"
         />
       </label>
       <div class="filter__btn">
@@ -78,7 +79,11 @@ $border-radius: 6px;
       }
     }
     &--search {
+      cursor: default;
       position: absolute;
+      width: 25px;
+      height: 25px;
+      left: 2px;
       top: 50%;
       transform: translateY(-50%);
     }
@@ -89,7 +94,12 @@ $border-radius: 6px;
 <script>
 export default {
   data: () => ({
-    input: "",
+    text: "",
   }),
+  methods: {
+    handleInput() {
+      this.$emit("filterInput", this.text);
+    },
+  },
 };
 </script>
