@@ -205,6 +205,7 @@ export default {
         return;
       }
       this.isCreating = !this.isCreating;
+      this.contentOffset = this.getContentOffset();
       this.clickPosition = this.getPosition(event);
     },
     closeCreateMarkerForm() {
